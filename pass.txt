@@ -1,0 +1,4 @@
+
+Postgres linux user : sqlpass
+postgres database user : sqldatapass
+medica django app superuser : admin admin
