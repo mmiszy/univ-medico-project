@@ -1,0 +1,21 @@
+<html>
+<head />
+<body>
+
+<table>
+	<thead>
+		<th>Nazwa</th>
+		<th>Data</th>
+		<th>Opis</th?
+	</thead>
+	{% for o in appointments %}
+	<tr>
+		<td><a href="/{{ o.id }}/">{{ o.title }}</a?</td>
+		<td>{{ o.date }}</td>
+		<td>{{ o.notes }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+</body>
+</html>
