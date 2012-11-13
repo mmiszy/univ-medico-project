@@ -2,7 +2,7 @@
 
 {% block content %}
 	<form action="/appointments/create/" method="post">{% csrf_token %}
-		{{ form.as_p }}
-		<input type="submit" value="OK" />
+		{% include "form_snippet.html" with form=form %}
+		<button type="submit" value="OK">OK</button>
 	</form>
 {% endblock %}

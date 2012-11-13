@@ -1,0 +1,20 @@
+{% load form_extras %}
+
+{% if form.errors and not form.non_field_errors %}
+	<p class="errorlist">Please correct the errors below and submit the form again.</p>
+{% endif %}
+{{ form.non_field_errors }}
+{% for field in form %}
+	{% if not field.is_hidden %}
+		<fieldset>
+			{{ field.label_tag }}
+			{% if field.help_text %}
+				<p class="helptext">{{ field.help_text|safe }}</p>
+			{% endif %}
+			{{ field.errors }}
+			{{ field|field_type }}
+		</fieldset>
+	{% else %}
+		{{ field }}
+	{% endif %}
+{% endfor %}
