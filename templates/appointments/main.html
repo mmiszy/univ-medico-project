@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>{{ title }}</title>
-	<link type="text/css" rel="css/main.css">
-</head>
-<body>
-	<header>
-	</header>
-	<footer>
-	</footer>
-</body>
+	<head>
+		<title>{{ title }}</title>
+		<link type="text/css" href="/static/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+		</header>
+		<section>
+			{% block content %}
+			{% endblock %}
+		</section>
+		<footer>
+		</footer>
+	</body>
 </html>
