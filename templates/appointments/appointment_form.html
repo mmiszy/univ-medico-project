@@ -2,7 +2,13 @@
 
 {% block content %}
 	<form action="/appointments/create/" method="post">{% csrf_token %}
+		<hgroup>
+			<h1>Zarejestruj się</h1>
+			<h2>
+				<a itemprop="telephone" href="tel:+48555444333"><span>+48</span><span>555</span><span>444</span><span>333</span></a>
+			</h2>
+		</hgroup>
 		{% include "form_snippet.html" with form=form %}
-		<button type="submit" value="OK">OK</button>
+		<button type="submit" value="OK">Zarejestruj się</button>
 	</form>
 {% endblock %}

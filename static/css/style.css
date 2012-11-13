@@ -105,6 +105,136 @@ header form button span::before {
   line-height: 0;
   height: 0;
 }
+.main form {
+  background-color: #e6e6e6;
+  margin: 20px 0;
+  padding-bottom: 20px;
+  border-radius: 0 0 5px 5px;
+}
+.main form hgroup {
+  background-color: #46a1b4;
+  padding: 20px 0;
+  margin-bottom: 30px;
+  text-align: center;
+  border-radius: 5px;
+  position: relative;
+}
+.main form hgroup:after {
+  border-color: #bc390b;
+  background-color: #f35f2a;
+  content: "lub";
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 0.8em;
+  height: 35px;
+  line-height: 35px;
+  position: absolute;
+  left: 49%;
+  right: 51%;
+  bottom: -20px;
+  display: inline-block;
+  border-width: 2px 0 0 2px;
+  border-radius: 35px;
+  border-style: solid;
+  width: 35px;
+  color: white;
+}
+.main form h1,
+.main form h2 {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: lighter;
+  color: white;
+}
+.main form h2 a {
+  color: white;
+  text-decoration: none;
+  font-weight: lighter;
+  position: relative;
+}
+.main form h2 a:before {
+  font-family: "SSStandard";
+  content: '📞';
+  border-color: #266674;
+  background-color: #2f7e8f;
+  font-size: 0.85em;
+  padding-top: 4px;
+  height: 31px;
+  display: inline-block;
+  border-width: 2px 0 0 2px;
+  border-radius: 35px;
+  border-style: solid;
+  width: 35px;
+}
+.main form h2 a span {
+  margin: 0 3px;
+}
+.main form fieldset {
+  padding: 5px 15px;
+  margin: 0;
+  border: none;
+}
+.main form fieldset input:not([type="date"]):not([type="time"]),
+.main form fieldset textarea {
+  width: 96%;
+  border: none;
+  border-radius: 3px;
+  -webkit-box-shadow: 1px 1px 2px #c4c4c4;
+  -moz-box-shadow: 1px 1px 2px #c4c4c4;
+  box-shadow: 1px 1px 2px #c4c4c4;
+  -webkit-appearance: none;
+}
+.main form fieldset input,
+.main form fieldset textarea,
+.main form fieldset select {
+  margin: 0 auto;
+  display: block;
+}
+.main form button {
+  display: block;
+  background-color: #d74f1f;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f56734), to(#ba3809));
+  background: -webkit-linear-gradient(top, #f56734, #ba3809);
+  background: -moz-linear-gradient(top, #f56734, #ba3809);
+  background: -ms-linear-gradient(top, #f56734, #ba3809);
+  background: -o-linear-gradient(top, #f56734, #ba3809);
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  text-shadow: 1px 1px 0px #AE421B;
+  font-weight: lighter;
+  border: none;
+  margin: 20px auto;
+}
+.main form button:hover {
+  background-color: #d04d1e;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f56734), to(#ab3308));
+  background: -webkit-linear-gradient(top, #f56734, #ab3308);
+  background: -moz-linear-gradient(top, #f56734, #ab3308);
+  background: -ms-linear-gradient(top, #f56734, #ab3308);
+  background: -o-linear-gradient(top, #f56734, #ab3308);
+}
+.main form label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.main form label.focusable:active,
+.main form label.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
 .main #slider-wrapper {
   position: relative;
 }

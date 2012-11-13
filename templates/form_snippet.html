@@ -7,17 +7,19 @@
 {% for field in form %}
 	{% if not field.is_hidden %}
 		<fieldset>
-			{{ field.label_tag }}
+			{{ field.label_tag.value }}
 			{% if field.help_text %}
 				<p class="helptext">{{ field.help_text|safe }}</p>
 			{% endif %}
 			{{ field.errors }}
 			{% if field|field_type == "DateField" %}
-				<input id="{{ field.auto_id }}" type="date" name="{{ field.html_name }}" value="{{ form.field.value }}">
+				<input id="{{ field.auto_id }}" type="date" name="{{ field.html_name }}" value="{% if form.field.value %}{{ form.field.value }}{% else %}{% now "Y-m-d" %}{% endif %}">
 			{% elif field|field_type == "TimeField" %}
-				<input id="{{ field.auto_id }}" type="time" name="{{ field.html_name }}" value="{{ form.field.value }}">
+				<input id="{{ field.auto_id }}" type="time" name="{{ field.html_name }}" value="{% if form.field.value %}{{ form.field.value }}{% else %}{% now "H:i" %}{% endif %}">
 			{% elif field|field_type == "CharField" and not field.field.max_length %}
 				<textarea id="{{ field.auto_id }}" name="{{ field.html_name }}">{{ form.field.value }}</textarea>
+			{% elif field|field_type == "CharField" %}
+				<input id="{{ field.auto_id }}" type="text" name="{{ field.html_name }}" value="{{ form.field.value }}">
 			{% else %}
 				{{ field }}
 			{% endif %}
