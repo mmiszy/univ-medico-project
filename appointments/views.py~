@@ -9,7 +9,7 @@ def index(req):
 	appos = Appointment.objects.all()
 	return render_to_response('appointments/index.html')
 
-# wymaga znania id lub hasha
+# 
 def show(req, id):
 	try:
 		app = Appointment.objects.get(pk=id)

@@ -1,0 +1,6 @@
+<ul>
+	{% for app in appos %}
+		<li><a href="/appointments/{{ app.id }}">{{ app.title }}</a></li>
+
+	{% endfor %}
+</ul>
