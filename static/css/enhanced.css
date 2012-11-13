@@ -1,0 +1,10 @@
+footer small,
+footer address {
+  line-height: 50px;
+}
+footer small {
+  float: left;
+}
+footer address {
+  float: right;
+}

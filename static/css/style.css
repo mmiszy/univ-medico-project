@@ -1,0 +1,147 @@
+@charset "UTF-8";
+::selection {
+  background-color: #3E96A9;
+  color: white;
+  text-shadow: none;
+}
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+img {
+  max-width: 100%;
+}
+header,
+.main,
+footer {
+  padding: 0 10px;
+}
+header h1 {
+  color: #419aad;
+  font-family: helvetica;
+  font-weight: lighter;
+}
+header h2 {
+  color: #b0b7b9;
+  font-weight: normal;
+  font-size: 0.9em;
+}
+header h1,
+header h2 {
+  text-align: center;
+  margin: 0;
+}
+header hgroup {
+  width: 100%;
+  margin: 10px auto;
+}
+header ul {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0;
+}
+header a {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid #dfdfdf;
+  color: #b0b7B9;
+  border-radius: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  text-decoration: none;
+}
+header a span {
+  margin: 0 2px;
+}
+header a:before {
+  font-family: "SSStandard";
+  content: '📞';
+}
+header a:hover {
+  color: #f56734;
+}
+.main:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.main #slider-wrapper {
+  position: relative;
+}
+.main #slider-wrapper #slider {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.main #slider-wrapper #slider li {
+  display: inline;
+}
+.main #slider-wrapper #slider img {
+  min-width: 530px;
+}
+.main #slider-wrapper .appointment {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  display: block;
+  background-color: #d74f1f;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f56734), to(#ba3809));
+  background: -webkit-linear-gradient(top, #f56734, #ba3809);
+  background: -moz-linear-gradient(top, #f56734, #ba3809);
+  background: -ms-linear-gradient(top, #f56734, #ba3809);
+  background: -o-linear-gradient(top, #f56734, #ba3809);
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  text-shadow: 1px 1px 0px #AE421B;
+  font-weight: lighter;
+}
+.main #slider-wrapper .appointment:hover {
+  background-color: #d04d1e;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f56734), to(#ab3308));
+  background: -webkit-linear-gradient(top, #f56734, #ab3308);
+  background: -moz-linear-gradient(top, #f56734, #ab3308);
+  background: -ms-linear-gradient(top, #f56734, #ab3308);
+  background: -o-linear-gradient(top, #f56734, #ab3308);
+}
+footer {
+  background-color: #1c1e1f;
+  min-height: 50px;
+  color: #808080;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+footer:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+footer a {
+  color: #4c595c;
+  text-decoration: none;
+}
+footer a:hover {
+  color: white;
+}
+footer small,
+footer address {
+  display: inline-block;
+  font-size: 0.9em;
+  font-style: normal;
+  line-height: 2em;
+  margin: 0 auto;
+}
