@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response
 from appointments.models import *
 from django.views.generic import CreateView
-from django.http import HttpResponse
+from django.http import HttpResponse, Http40
 import json
 
 def index(req):
