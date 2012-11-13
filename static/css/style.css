@@ -34,12 +34,15 @@ header hgroup {
   width: 100%;
   margin: 10px auto;
 }
+header > a {
+  text-decoration: none;
+}
 header ul {
   list-style: none;
   padding: 0;
   margin: 25px 0;
 }
-header a {
+header ul a {
   display: block;
   width: 200px;
   max-width: 100%;
@@ -52,15 +55,43 @@ header a {
   text-align: center;
   text-decoration: none;
 }
-header a span {
+header ul a span {
   margin: 0 2px;
 }
-header a:before {
+header ul a:before {
   font-family: "SSStandard";
   content: '📞';
 }
-header a:hover {
+header ul a:hover {
   color: #f56734;
+}
+header form {
+  background-color: #46a1b4;
+  margin: 0 auto;
+  padding: 10px 15px;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+}
+header form input {
+  background-color: #377F8F;
+  -webkit-appearance: none;
+  border: 1px solid #54AEC2;
+  border-radius: 3px;
+  padding: 5px 40px 5px 8px;
+  color: #c4e2e9;
+  font-weight: lighter;
+  min-width: 165px;
+  font-size: 0.95em;
+}
+header form button {
+  margin-left: -35px;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  width: 20px;
+}
+header form button span::before {
+  color: #c4e2e9;
 }
 .main:after {
   content: ".";
