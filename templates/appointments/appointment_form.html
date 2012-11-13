@@ -1,11 +1,8 @@
-<html>
-<head />
-<body>
+{% extends "appointments/main.html" %}
 
-<form action="/appointments/create/" method="post">{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="OK" />
-</form>
-
-</body>
-</html>
+{% block content %}
+	<form action="/appointments/create/" method="post">{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="OK" />
+	</form>
+{% endblock %}

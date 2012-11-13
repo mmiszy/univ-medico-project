@@ -1,21 +1,18 @@
-<html>
-<head />
-<body>
+{% extends "appointments/main.html" %}
 
-<table>
-	<thead>
-		<th>Nazwa</th>
-		<th>Data</th>
-		<th>Opis</th?
-	</thead>
-	{% for o in appointments %}
-	<tr>
-		<td><a href="/appointments/{{ o.id }}/">{{ o.title }}</a?</td>
-		<td>{{ o.date }}</td>
-		<td>{{ o.notes }}</td>
-	</tr>
-	{% endfor %}
-</table>
-
-</body>
-</html>
+{% block content %}
+	<table>
+		<thead>
+			<th>Nazwa</th>
+			<th>Data</th>
+			<th>Opis</th?
+		</thead>
+		{% for o in appointments %}
+		<tr>
+			<td><a href="/appointments/{{ o.id }}/">{{ o.title }}</a?</td>
+			<td>{{ o.date }}</td>
+			<td>{{ o.notes }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
