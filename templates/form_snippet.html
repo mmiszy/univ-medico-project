@@ -12,7 +12,11 @@
 				<p class="helptext">{{ field.help_text|safe }}</p>
 			{% endif %}
 			{{ field.errors }}
-			{{ field|field_type }}
+			{% if field|field_type == "DateTimeField" %}
+				<input id="{{ field.auto_id }}" type="date" name="{{ field.html_name }}" value="{{ form.field.value }}">
+			{% else %}
+				{{ field }}
+			{% endif %}
 		</fieldset>
 	{% else %}
 		{{ field }}
