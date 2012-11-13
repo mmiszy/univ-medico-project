@@ -12,8 +12,10 @@
 				<p class="helptext">{{ field.help_text|safe }}</p>
 			{% endif %}
 			{{ field.errors }}
-			{% if field|field_type == "DateTimeField" %}
+			{% if field|field_type == "DateField" %}
 				<input id="{{ field.auto_id }}" type="date" name="{{ field.html_name }}" value="{{ form.field.value }}">
+			{% elif field|field_type == "TimeField" %}
+				<input id="{{ field.auto_id }}" type="time" name="{{ field.html_name }}" value="{{ form.field.value }}">
 			{% else %}
 				{{ field }}
 			{% endif %}
