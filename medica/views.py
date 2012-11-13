@@ -8,3 +8,5 @@ def current_datetime(request):
     html = "<html><body>It is now %s.</body></html>" % now
     return HttpResponse(html)
 
+def index(req):
+	return render_to_response('index.html')

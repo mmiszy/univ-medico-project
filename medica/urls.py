@@ -8,7 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^datetime', 'medica.views.current_datetime'),
+    url(r'^$', 'medica.views.index'),
     url(r'^appointments/', include('appointments.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
