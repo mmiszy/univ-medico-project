@@ -1,1 +1,3 @@
 admin/*
+*.pyc
+medica/settings.py

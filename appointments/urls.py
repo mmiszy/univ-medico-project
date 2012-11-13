@@ -4,7 +4,8 @@ from django.views.generic import CreateView, ListView
 from appointments.models import Appointment
 
 urlpatterns = patterns('',
-    url(r'^$', ListView.as_view(
+	url(r'^$', 'appointments.views.index'),
+    url(r'^list/$', ListView.as_view(
     	model=Appointment,
     	context_object_name = "appointments"
     )),
@@ -15,4 +16,5 @@ urlpatterns = patterns('',
         success_url="/appointments",
     	)
     ),
+    url(r'^gethash/(?P<id>\d+)/$', 'appointments.views.gethash'),
 )
