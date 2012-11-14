@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import CreateView, ListView
 
 from appointments.models import Appointment
+from appointments.views import AppointmentCreateForm
 
 urlpatterns = patterns('',
 	url(r'^$', 'appointments.views.index'),
@@ -14,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^create/$', CreateView.as_view(
         model=Appointment,
         success_url="/appointments",
+        form_class = AppointmentCreateForm,
     	)
     ),
     url(r'^gethash/(?P<id>\d+)/$', 'appointments.views.gethash'),
