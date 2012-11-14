@@ -4,6 +4,7 @@ from appointments.models import *
 from django.views.generic import CreateView
 from django.http import HttpResponse
 from django.forms import ModelForm
+from django.http import Http404
 import json
 
 class AppointmentCreateForm(ModelForm):

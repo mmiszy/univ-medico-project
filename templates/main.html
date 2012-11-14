@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{{ title }}Medico - Portal rejestracji pacjentów</title>
+        <meta name="description" content="Najpięknieszy portal rejestracji pacjentów">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+        <link rel="stylesheet" href="/static/css/normalize.css">
+        <link rel="stylesheet" href="/static/css/fonts.css" media="only screen">
+        <link rel="stylesheet" href="/static/css/style.css" media="only screen">
+        <link rel="stylesheet" href="/static/css/enhanced.css" media="only screen and (min-width: 481px)">
+
+       <!--  <meta property="og:title" content=""/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content=""/>
+        <meta property="og:url" content=""/>
+        <meta property="og:site_name" content=""/>
+        <meta property="og:description" content=""/> -->
+
+        <script type="text/javascript">
+		// var _gaq = _gaq || [];
+		// _gaq.push(['_setAccount', 'UA-36042841-1']);
+		// _gaq.push(['_trackPageview']);
+
+		// (function() {
+		// var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		// ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		// var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		// })();
+        </script>
+    </head>
+    <body>
+        <header>
+            <a href="/">
+                <hgroup>
+                    <h1>Medico</h1>
+                    <h2>Rejestracja pacjentów</h2>
+                </hgroup>
+            </a>
+            <ul>
+                <li>
+                    <a itemprop="telephone" href="tel:+48555444333"><span>+48</span><span>555</span><span>444</span><span>333</span></a>
+                </li>
+            </ul>
+            <form action="">
+                <input type="text" pattern="[0-9a-fA-F]{5}" placeholder="Wpisz numer rejestracji...">
+                <button type="submit"><span class="ss-search"></span></button>
+            </form>
+        </header>
+
+        <div class="main">
+        	{% block content %}
+			{% endblock %}
+        </div>
+
+        <footer>
+            <small>&copy; Copyright 2012. All Rights Reserved by Medico - Rejestracja pacjentów.</small>
+            <address>By <a href="">Bartosz Banachewicz</a> &amp; <a href="http://mmiszy.pl/">Michał Miszczyszyn</a></address>
+        </footer>
+
+        <script src="/static/js/main.js"></script>
+        <script src="/static/js/retina.js"></script>
+        <script>
+            // var _gaq=[['_setAccount','UA-36042841-1'],['_trackPageview']];
+            // (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            // g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            // s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
