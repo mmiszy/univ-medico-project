@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+
+{% block content %}
+	<h2>Potwierdzenie rejestracji - {{ pk }}</h2>
+	<form method="post">{% csrf_token %}
+		{% include "form_snippet.html" with form=form %}
+		<button type="submit" value="OK">Potwierdz</button>
+	</form>
+{% endblock %}

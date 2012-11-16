@@ -1,17 +1,49 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from appointments.models import *
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
+from django.forms.widgets import Select
 import json
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
-		exclude = ('author')
-
+		exclude = ('author', 'status', 'slug')
+	
+class AppointmentConfirmForm(ModelForm):
+	class Meta:
+		model = Appointment
+		fields = ("status",)
+		
+		STATUS_CHOICES = ((1, 'confirm'),
+                            (99, 'decline'))
+		widgets = {
+			'status': Select(choices = STATUS_CHOICES),
+		}
+		
+class AppointmentConfirmView(UpdateView):
+	template_name="appointments/appointment_confirm_form.html"
+	model=Appointment
+	success_url="/appointments/list/"
+	form_class = AppointmentConfirmForm
+	
+	def get_context_data(self, **kwargs):
+		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs['pk']
+		return context
+		
+class AppointmentCreateView(CreateView):		
+	model=Appointment
+	success_url="/appointments"
+	form_class = AppointmentCreateForm
+	
+	def form_valid(self, form):
+		form.fields['slug'] = 'dupa1'
+		return super(CreateView, self).form_valid(form)
+	
 def index(req):
 	appos = Appointment.objects.all()
 	return render_to_response('appointments/index.html')
@@ -24,14 +56,4 @@ def show(req, id):
 		raise Http404
 	return render_to_response('appointments/show.html', {'app': app})
 	
-import base64
-import hashlib	
-def gethash(req, id):
-	hasher = hashlib.md5(id)
-#	id_hash = base64.urlsafe_b64encode(hasher.digest()[0:5])
-	id_hash = hasher.hexdigest()[0:8]
-	
-	response_data = { }
-	response_data['id'] = id 
-	response_data['hash'] = id_hash
-	return HttpResponse(json.dumps(response_data), mimetype="application/json")
+
