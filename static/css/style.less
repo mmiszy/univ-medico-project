@@ -11,8 +11,11 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 }
 
-img, input, textarea, fieldset, form {
+img, fieldset, form {
 	max-width: 100%;
+}
+input, textarea {
+	max-width: 200px;
 }
 
 header, .main, footer {
@@ -98,6 +101,14 @@ header {
 			background-color: transparent;
 			padding: 0;
 			width: 20px;
+			height: 20px;
+			position: relative;
+
+			span {
+				display: block;
+				position: absolute;
+				top: 5px;
+			}
 
 			span::before {
 				color: #c4e2e9;
@@ -133,8 +144,8 @@ header {
 				height: 35px;
 				line-height: 35px;
 				position: absolute;
-				left: 49%;
-				right: 51%;
+				left: 50%;
+				margin-left: -17.5px;
 				bottom: -20px;
 				display: inline-block;
 				border-width: 2px 0 0 2px;
@@ -167,13 +178,14 @@ header {
 				border-color: darken(#2f7e8f, 7%);
 				background-color: #2f7e8f;
 				font-size: 0.85em;
-				padding-top: 4px;
-				height: 31px;
+				padding-top: 5px;
+				padding-right: 1px;
+				height: 30px;
 				display: inline-block;
 				border-width: 2px 0 0 2px;
 				border-radius: 35px;
 				border-style: solid;
-				width: 35px;
+				width: 34px;
 			}
 
 			span {
