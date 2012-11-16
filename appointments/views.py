@@ -37,7 +37,7 @@ class AppointmentConfirmView(UpdateView):
 		
 class AppointmentCreateView(CreateView):		
 	model=Appointment
-	success_url="/appointments/getbyhash/%(slug)s/"
+	success_url="/appointments/id/%(slug)s/"
 	form_class = AppointmentCreateForm
 	
 def index(req):
