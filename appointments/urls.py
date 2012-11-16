@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from appointments.models import Appointment
 from appointments.views import *
@@ -13,6 +13,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/$', AppointmentConfirmView.as_view()),
     # url(r'^appointments/edit/(?P<id>\d+)/$', 'appointments.views.edit'), 
     url(r'^create/$', AppointmentCreateView.as_view()),
-    url(r'^gethash/(?P<id>\d+)/$', 'appointments.views.gethash'),
+    url(r'^getbyhash/(?P<slug>[a-z0-9]+)/$', DetailView.as_view(model = Appointment)),
     url(r'^$', 'appointments.views.index'),
 )

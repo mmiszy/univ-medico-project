@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from appointments.models import *
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
@@ -23,7 +23,7 @@ class AppointmentConfirmForm(ModelForm):
 		widgets = {
 			'status': Select(choices = STATUS_CHOICES),
 		}
-		
+			
 class AppointmentConfirmView(UpdateView):
 	template_name="appointments/appointment_confirm_form.html"
 	model=Appointment
@@ -37,12 +37,8 @@ class AppointmentConfirmView(UpdateView):
 		
 class AppointmentCreateView(CreateView):		
 	model=Appointment
-	success_url="/appointments"
+	success_url="/appointments/getbyhash/%(slug)s/"
 	form_class = AppointmentCreateForm
-	
-	def form_valid(self, form):
-		form.fields['slug'] = 'dupa1'
-		return super(CreateView, self).form_valid(form)
 	
 def index(req):
 	appos = Appointment.objects.all()
