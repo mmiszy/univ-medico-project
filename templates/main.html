@@ -44,8 +44,8 @@
                     <a itemprop="telephone" href="tel:+48555444333"><span>+48</span><span>555</span><span>444</span><span>333</span></a>
                 </li>
             </ul>
-            <form action="">
-                <input type="text" pattern="[0-9a-fA-F]{5}" placeholder="Wpisz numer rejestracji...">
+            <form action="/appointments/id/" method="GET">
+                <input type="text" pattern="[0-9a-fA-F]{5}" placeholder="Wpisz numer rejestracji..." id="hash" name="hash">
                 <button type="submit"><span class="ss-search"></span></button>
             </form>
         </header>

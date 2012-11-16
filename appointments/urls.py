@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     # url(r'^appointments/edit/(?P<id>\d+)/$', 'appointments.views.edit'), 
     url(r'^create/$', AppointmentCreateView.as_view()),
     url(r'^id/(?P<slug>[a-fA-F0-9]{5})/$', DetailView.as_view(model = Appointment)),
+    url(r'^id/$', 'appointments.views.redirectByHash'),
     url(r'^$', 'appointments.views.index'),
 )

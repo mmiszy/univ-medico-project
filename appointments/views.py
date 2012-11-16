@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
 from django.forms.widgets import Select
+from django.shortcuts import redirect
+
 import json
 
 class AppointmentCreateForm(ModelForm):
@@ -44,7 +46,13 @@ def index(req):
 	appos = Appointment.objects.all()
 	return render_to_response('appointments/index.html')
 
-# wymaga znania id lub hasha
+def redirectByHash(req):
+	try:
+		app = Appointment.objects.get(slug=req.GET['hash'])
+	except Appointment.DoesNotExist:
+		raise Http404
+	return redirect("/appointments/id/"+req.GET['hash'], permanent=True)
+ 
 def show(req, id):
 	try:
 		app = Appointment.objects.get(pk=id)
