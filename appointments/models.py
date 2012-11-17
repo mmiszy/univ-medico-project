@@ -21,9 +21,9 @@ class Appointment(models.Model):
 	slug = models.SlugField(max_length=5, db_index = True)
 	
 	status = models.SmallIntegerField(default = 0, choices = (
-		('0', 'New'),
-		('1', 'Confirmed'),
-		('99', 'Declined'),
+		(0, 'New'),
+		(1, 'Confirmed'),
+		(99, 'Declined'),
 		)
 	)
 	

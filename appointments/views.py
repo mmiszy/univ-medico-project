@@ -20,8 +20,8 @@ class AppointmentConfirmForm(ModelForm):
 		model = Appointment
 		fields = ("status",)
 		
-		STATUS_CHOICES = ((1, 'confirm'),
-                            (99, 'decline'))
+		STATUS_CHOICES = (('1', 'confirm'),
+                            ('99', 'decline'))
 		widgets = {
 			'status': Select(choices = STATUS_CHOICES),
 		}
