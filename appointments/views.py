@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from appointments.models import *
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
@@ -41,6 +41,10 @@ class AppointmentCreateView(CreateView):
 	model=Appointment
 	success_url="/appointments/id/%(slug)s/"
 	form_class = AppointmentCreateForm
+	
+class AppointmentListView(ListView):
+   	model=Appointment
+   	context_object_name = "appointments"
 	
 def index(req):
 	appos = Appointment.objects.all()

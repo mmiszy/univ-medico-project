@@ -35,3 +35,14 @@ class Appointment(models.Model):
 		if not self.id:
 			self.slug = gethash(strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()))
 		super(Appointment, self).save(*args, **kwargs)
+		
+class PatientCard(models.Model):
+	user = models.OneToOneField(User)
+	description = models.TextField(max_length=2000)
+
+from django.db.models.signals import post_save
+def create_patient_card(sender, instance, created, **kwargs):
+    if created:
+        PatientCard.objects.create(user=instance)
+       
+post_save.connect(create_patient_card, sender=User)

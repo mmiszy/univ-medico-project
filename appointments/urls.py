@@ -4,11 +4,10 @@ from django.views.generic import ListView, DetailView
 from appointments.models import Appointment
 from appointments.views import *
 
+from django.contrib.auth.decorators import login_required
+
 urlpatterns = patterns('',
-    url(r'^list/$', ListView.as_view(
-    	model=Appointment,
-    	context_object_name = "appointments"
-    )),
+    url(r'^list/$', login_required(AppointmentListView.as_view())),
    # url(r'^(?P<id>\d+)/$', 'appointments.views.show'),
     url(r'^(?P<pk>\d+)/$', AppointmentConfirmView.as_view()),
     # url(r'^appointments/edit/(?P<id>\d+)/$', 'appointments.views.edit'), 
