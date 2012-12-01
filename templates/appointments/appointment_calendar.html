@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+{% load template_extras %}
+
+{% block content %}
+	<table>
+		<tr>
+			{% for i, days in week.items %}
+				<td>
+					{{ i }}:<br><br>
+					{% for j, hours in days.items %}
+						{% if hours %}
+							<a href="/appointments/create/{{ i }}/{{ j }}">{{ hours|date:"H:i" }}</a><br>
+						{% else %}
+							penis<br>
+						{% endif %}
+					{% endfor %}
+				</td>
+			{% endfor %}
+		</tr>
+	</table>
+	{% for o in appointments %}
+	<!-- <tr>
+		<td><a href="/appointments/{{ o.id }}/">{{ o.title }}</a></td>
+		<td>{{ o.date }}</td>
+		<td>{{ o.time }}</td>
+		<td>{{ o.notes }}</td>
+		<td>{{ o.status }}</td>
+	</tr> -->
+	{% endfor %}
+{% endblock %}

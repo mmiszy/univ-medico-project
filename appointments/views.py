@@ -7,6 +7,7 @@ from django.forms import ModelForm
 from django.http import Http404
 from django.forms.widgets import Select
 from django.shortcuts import redirect
+from collections import OrderedDict
 
 import json
 import datetime
@@ -49,6 +50,26 @@ class AppointmentCalendarView(ListView):
 			date__lte = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
 			 + datetime.timedelta(days = 7)
 		)
+
+	def get_context_data(self, **kwargs):
+		context = super(AppointmentCalendarView, self).get_context_data(**kwargs)
+		date_start = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+
+		week = OrderedDict()
+		for i in range(7):
+			hours = OrderedDict()
+			day = (date_start + datetime.timedelta(days = i))
+			for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
+				dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
+				hours[dateNtime.strftime("%H:%M")] = dateNtime
+			week[day.strftime("%Y-%m-%d")] = hours
+
+		context['dupa'] = []
+		for i in AppointmentCalendarView.get_queryset(self):
+			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
+			
+		context['week'] = week
+		return context
 		
 class AppointmentCreateView(CreateView):		
 	model=Appointment
