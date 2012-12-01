@@ -9,6 +9,7 @@ from django.forms.widgets import Select
 from django.shortcuts import redirect
 
 import json
+import datetime
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:
@@ -36,6 +37,18 @@ class AppointmentConfirmView(UpdateView):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
 		context['pk'] = self.kwargs['pk']
 		return context
+		
+class AppointmentCalendarView(ListView):
+	context_object_name = "appointments"
+	template_name="appointments/appointment_calendar.html"
+
+	def get_queryset(self):
+		return Appointment.objects.filter(
+			date__gte = self.kwargs['date_start']
+		).filter(
+			date__lte = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+			 + datetime.timedelta(days = 7)
+		)
 		
 class AppointmentCreateView(CreateView):		
 	model=Appointment
