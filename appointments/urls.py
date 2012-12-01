@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = patterns('',
     url(r'^list/$', login_required(AppointmentListView.as_view())),
    # url(r'^(?P<id>\d+)/$', 'appointments.views.show'),
-	url(r'^calendar/(?P<date_start>\d{4}-\d{2}-\d{2})/$', AppointmentCalendarView.as_view()),
+	url(r'^calendar/(?P<date_start>[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|[3][01]))/$', AppointmentCalendarView.as_view()),
     url(r'^(?P<pk>\d+)/$', AppointmentConfirmView.as_view()),
     # url(r'^appointments/edit/(?P<id>\d+)/$', 'appointments.views.edit'), 
     url(r'^create/$', login_required(AppointmentCreateView.as_view())),
