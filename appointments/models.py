@@ -27,7 +27,7 @@ class Appointment(models.Model):
 		)
 	)
 	
-	author = models.ForeignKey(User, default = get_admin)
+	author = models.ForeignKey(User)
 	def __unicode__(self):
        		return self.title
        		

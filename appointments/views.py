@@ -42,6 +42,16 @@ class AppointmentCreateView(CreateView):
 	success_url="/appointments/id/%(slug)s/"
 	form_class = AppointmentCreateForm
 	
+	def post(self, request, *args, **kwargs):
+		self.object = None
+		form_class = self.get_form_class()
+		form = self.get_form(form_class)
+		form.instance.author = request.user
+		if form.is_valid():
+			return self.form_valid(form)
+		else:
+			return self.form_invalid(form)
+	
 class AppointmentListView(ListView):
    	model=Appointment
    	context_object_name = "appointments"
