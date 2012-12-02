@@ -7,8 +7,10 @@ from django.forms import ModelForm
 from django.http import Http404
 from django.forms.widgets import Select
 from django.shortcuts import redirect
-from collections import OrderedDict
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
+from collections import OrderedDict
 import json
 import datetime
 
@@ -43,6 +45,10 @@ class AppointmentConfirmView(UpdateView):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
 		context['pk'] = self.kwargs['pk']
 		return context
+		
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
 		
 class AppointmentCalendarView(ListView):
 	context_object_name = "appointments"
@@ -112,8 +118,13 @@ class AppointmentCreateView(CreateView):
 			return self.form_invalid(form)
 	
 class AppointmentListView(ListView):
-   	model=Appointment
    	context_object_name = "appointments"
+   	
+   	def get_queryset(self):
+   		if self.request.user.has_perm("Appointment.view_all_app"):
+   			return Appointment.objects.all()
+   		else:
+   			return Appointment.objects.filter(author = self.request.user)
 	
 def index(req):
 	appos = Appointment.objects.all()
