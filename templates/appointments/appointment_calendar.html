@@ -1,5 +1,4 @@
 {% extends "main.html" %}
-{% load template_extras %}
 
 {% block content %}
 	<table>
@@ -9,7 +8,7 @@
 					{{ i }}:<br><br>
 					{% for j, hours in days.items %}
 						{% if hours %}
-							<a href="/appointments/create/{{ i }}/{{ j }}">{{ hours|date:"H:i" }}</a><br>
+							<a href="/appointments/create/{{ i }}/{{ hours|date:"Hi" }}">{{ hours|date:"H:i" }}</a><br>
 						{% else %}
 							penis<br>
 						{% endif %}

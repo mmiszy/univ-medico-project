@@ -16,6 +16,11 @@ class AppointmentCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
 		exclude = ('author', 'status', 'slug')
+		
+class AppointmentDirectCreateForm(ModelForm):
+	class Meta:
+		model = Appointment
+		exclude = ('author', 'status', 'slug', 'date', 'time')
 	
 class AppointmentConfirmForm(ModelForm):
 	class Meta:
@@ -64,7 +69,6 @@ class AppointmentCalendarView(ListView):
 				hours[dateNtime.strftime("%H:%M")] = dateNtime
 			week[day.strftime("%Y-%m-%d")] = hours
 
-		context['dupa'] = []
 		for i in AppointmentCalendarView.get_queryset(self):
 			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
 			
@@ -76,11 +80,32 @@ class AppointmentCreateView(CreateView):
 	success_url="/appointments/id/%(slug)s/"
 	form_class = AppointmentCreateForm
 	
+	def get(self, request, *args, **kwargs):
+		self.object = None
+		form_class=None
+		if self.kwargs['date']:
+			form_class = AppointmentDirectCreateForm
+		else:
+			form_class = self.get_form_class()
+
+		form = self.get_form(form_class)
+		return self.render_to_response(self.get_context_data(form=form))
+	
 	def post(self, request, *args, **kwargs):
 		self.object = None
-		form_class = self.get_form_class()
+		form_class=None
+		if self.kwargs['date']:
+			form_class = AppointmentDirectCreateForm
+		else:
+			form_class = self.get_form_class()
+			
 		form = self.get_form(form_class)
 		form.instance.author = request.user
+		
+		if self.kwargs['date']:
+			form.instance.date = datetime.datetime.strptime(self.kwargs['date'], "%Y-%m-%d")
+			form.instance.time = datetime.datetime.strptime(self.kwargs['time'], "%H%M")
+		
 		if form.is_valid():
 			return self.form_valid(form)
 		else:
