@@ -43,36 +43,47 @@ class AppointmentConfirmView(UpdateView):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
 		context['pk'] = self.kwargs['pk']
 		return context
+
+def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
+	week = OrderedDict()
+	for i in range(6):
+		hours = OrderedDict()
+		day = (date_start + datetime.timedelta(days = i))
+		for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
+			dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
+			hours[dateNtime.strftime("%H:%M")] = dateNtime
+		week[day.strftime("%Y-%m-%d")] = hours
+
+	for i in AppointmentCalendarView.get_queryset(self):
+		if i.date.strftime("%Y-%m-%d") in week and i.time.strftime("%H:%M") in week[i.date.strftime("%Y-%m-%d")]:
+			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
+	return week
+
+def normalize_date_to_monday(self, date):	# moves the date to nearest monday
+	temp_date = datetime.datetime.strptime(date, "%Y-%m-%d")
+	while temp_date.strftime("%u") != '1':
+		temp_date = temp_date + datetime.timedelta(days = -1)
+	return temp_date.strftime("%Y-%m-%d")
+
 		
 class AppointmentCalendarView(ListView):
 	context_object_name = "appointments"
 	template_name="appointments/appointment_calendar.html"
 
 	def get_queryset(self):
+		norm_date = normalize_date_to_monday(self, self.kwargs['date_start'])
 		return Appointment.objects.filter(
-			date__gte = self.kwargs['date_start']
+			date__gte = norm_date
 		).filter(
-			date__lte = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+			date__lte = datetime.datetime.strptime(norm_date, "%Y-%m-%d")
 			 + datetime.timedelta(days = 7)
 		)
 
 	def get_context_data(self, **kwargs):
 		context = super(AppointmentCalendarView, self).get_context_data(**kwargs)
-		date_start = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+		date_start = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d")
 
-		week = OrderedDict()
-		for i in range(7):
-			hours = OrderedDict()
-			day = (date_start + datetime.timedelta(days = i))
-			for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
-				dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
-				hours[dateNtime.strftime("%H:%M")] = dateNtime
-			week[day.strftime("%Y-%m-%d")] = hours
-
-		for i in AppointmentCalendarView.get_queryset(self):
-			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
-			
-		context['week'] = week
+		context['week'] = generate_calendar_dict(self, date_start)
 		return context
 		
 class AppointmentCreateView(CreateView):		
