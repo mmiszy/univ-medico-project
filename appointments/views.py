@@ -63,8 +63,12 @@ def generate_calendar_dict(self, date_start):	# generates dict of taken/free app
 
 def normalize_date_to_monday(self, date):	# moves the date to nearest monday
 	temp_date = datetime.datetime.strptime(date, "%Y-%m-%d")
-	while temp_date.strftime("%u") != '1':
-		temp_date = temp_date + datetime.timedelta(days = -1)
+	if temp_date.strftime("%u") == '7':
+		temp_date = temp_date + datetime.timedelta(days = 1)
+	else:
+		while temp_date.strftime("%u") != '1':
+			temp_date = temp_date + datetime.timedelta(days = -1)
+
 	return temp_date.strftime("%Y-%m-%d")
 
 		
