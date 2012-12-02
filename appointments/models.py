@@ -35,6 +35,12 @@ class Appointment(models.Model):
 		if not self.id:
 			self.slug = gethash(strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()))
 		super(Appointment, self).save(*args, **kwargs)
+	
+	class Meta:
+		permissions = (
+			("confirm_app", "Can confirm and schedule appointment"),
+			("view_all_app", "Can view all appointments")
+		)
 		
 class PatientCard(models.Model):
 	user = models.OneToOneField(User)
