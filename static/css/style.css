@@ -4,7 +4,13 @@
   color: white;
   text-shadow: none;
 }
-body {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: Helvetica, Arial, sans-serif;
 }
 img,
@@ -20,6 +26,13 @@ header,
 .main,
 footer {
   padding: 0 10px;
+}
+a {
+  text-decoration: none;
+  color: #4c595c;
+}
+a:hover {
+  color: #1e2324;
 }
 header h1 {
   color: #419aad;
@@ -40,9 +53,6 @@ header hgroup {
   width: 100%;
   margin: 10px auto;
 }
-header > a {
-  text-decoration: none;
-}
 header ul {
   list-style: none;
   padding: 0;
@@ -59,7 +69,6 @@ header ul a {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  text-decoration: none;
 }
 header ul a span {
   margin: 0 2px;
@@ -158,7 +167,6 @@ header form button span::before {
 }
 .main form h2 a {
   color: white;
-  text-decoration: none;
   font-weight: lighter;
   position: relative;
 }
@@ -288,6 +296,40 @@ header form button span::before {
   background: -ms-linear-gradient(top, #f56734, #ab3308);
   background: -o-linear-gradient(top, #f56734, #ab3308);
 }
+.main .calendar {
+  display: table;
+  margin: 20px auto;
+}
+.main .calendar h2 {
+  margin: 0;
+  font-size: 1.0em;
+  color: #555;
+  font-weight: normal;
+}
+.main .calendar .day {
+  display: table-cell;
+  text-align: center;
+}
+.main .calendar .hour a,
+.main .calendar .hour span {
+  color: white;
+  display: block;
+  padding: 5px 20px;
+  border-style: solid;
+  border-color: #ddd;
+  border-width: 1px 1px 0 0;
+  font-size: 0.9em;
+  text-align: center;
+}
+.main .calendar .hour.free {
+  background-color: #51b749;
+}
+.main .calendar .hour.free:hover {
+  background-color: #49a541;
+}
+.main .calendar .hour.taken {
+  background-color: #DC2127;
+}
 footer {
   background-color: #1c1e1f;
   min-height: 50px;
@@ -307,7 +349,6 @@ footer:after {
 }
 footer a {
   color: #4c595c;
-  text-decoration: none;
 }
 footer a:hover {
   color: white;

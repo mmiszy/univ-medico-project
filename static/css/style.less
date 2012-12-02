@@ -7,7 +7,7 @@
 	text-shadow: none;
 }
 
-body {
+body, h1, h2, h3, h4, h5, h6 {
 	font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -20,6 +20,15 @@ input, textarea {
 
 header, .main, footer {
 	padding: 0 10px;
+}
+
+a {
+	text-decoration: none;
+	color: #4c595c;
+
+	&:hover {
+		color: darken(#4c595c, 20%);
+	}
 }
 
 header {
@@ -41,9 +50,6 @@ header {
 		width: 100%;
 		margin: 10px auto;
 	}
-	> a {
-		text-decoration: none;
-	}
 
 	ul {
 		list-style: none;
@@ -60,7 +66,6 @@ header {
 			height: 40px;
 			line-height: 40px;
 			text-align: center;
-			text-decoration: none;
 
 			span {
 				margin: 0 2px;
@@ -164,7 +169,6 @@ header {
 		}
 		h2 a {
 			color: white;
-			text-decoration: none;
 			font-weight: lighter;
 			position: relative;
 
@@ -266,6 +270,47 @@ header {
 			}
 		}
 	}
+
+	.calendar {
+		display: table;
+		margin: 20px auto;
+
+		h2 {
+			margin: 0;
+			font-size: 1.0em;
+			color: #555;
+			font-weight: normal;
+		}
+
+		.day {
+			display: table-cell;
+			text-align: center;
+		}
+
+		.hour {
+			a, span {
+				color: white;
+				display: block;
+				padding: 5px 20px;
+				border-style: solid;
+				border-color: #ddd;
+				border-width: 1px 1px 0 0;
+				font-size: 0.9em;
+				text-align: center;
+			}
+
+			&.free {
+				background-color: #51b749;
+				&:hover {
+					background-color: darken(#51b749, 5%);
+				}
+			}
+
+			&.taken {
+				background-color: #DC2127;
+			}
+		}
+	}
 }
 
 footer {
@@ -280,7 +325,6 @@ footer {
 
 	a {
 		color: #4c595c;
-		text-decoration: none;
 
 		&:hover {
 			color: white;
