@@ -104,7 +104,7 @@ class AppointmentCreateView(CreateView):
 	def get(self, request, *args, **kwargs):
 		self.object = None
 		form_class=None
-		if self.kwargs['date']:
+		if self.kwargs and 'date' in self.kwargs:
 			form_class = AppointmentDirectCreateForm
 		else:
 			form_class = self.get_form_class()
@@ -115,7 +115,7 @@ class AppointmentCreateView(CreateView):
 	def post(self, request, *args, **kwargs):
 		self.object = None
 		form_class=None
-		if self.kwargs['date']:
+		if self.kwargs and 'date' in self.kwargs:
 			form_class = AppointmentDirectCreateForm
 		else:
 			form_class = self.get_form_class()
@@ -123,7 +123,7 @@ class AppointmentCreateView(CreateView):
 		form = self.get_form(form_class)
 		form.instance.author = request.user
 		
-		if self.kwargs['date']:
+		if 'date' in self.kwargs:
 			form.instance.date = datetime.datetime.strptime(self.kwargs['date'], "%Y-%m-%d")
 			form.instance.time = datetime.datetime.strptime(self.kwargs['time'], "%H%M")
 		
@@ -151,6 +151,9 @@ def redirectByHash(req):
 	except Appointment.DoesNotExist:
 		raise Http404
 	return redirect("/appointments/id/"+req.GET['hash'], permanent=True)
+
+def redirectToCurrentDate(req):
+	return redirect("/appointments/calendar/" + datetime.datetime.now().strftime("%Y-%m-%d"), permanent=False)
  
 def show(req, id):
 	try:

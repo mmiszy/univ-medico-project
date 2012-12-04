@@ -3,6 +3,9 @@
 {% block content %}
 	<div class="calendar">
 		{% for i, days in week.items %}
+			{% if forloop.first %}
+				dsadasdadsa
+			{% endif %}
 			<div class="day">
 				<h2>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
 				{% for j, hours in days.items %}
@@ -15,6 +18,9 @@
 					{% endif %}
 				{% endfor %}
 			</div>
+			{% if forloop.last %}
+				dsadasdadsa
+			{% endif %}
 		{% endfor %}
 	</div>
 {% endblock %}
