@@ -46,6 +46,10 @@ class AppointmentConfirmView(UpdateView):
 		context['pk'] = self.kwargs['pk']
 		return context
 
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
+
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
 	week = OrderedDict()
 	for i in range(6):
@@ -71,11 +75,9 @@ def normalize_date_to_monday(self, date):	# moves the date to nearest monday
 
 	return temp_date.strftime("%Y-%m-%d")
 
-		
-	@method_decorator(permission_required('Appointment.confirm_app'))
-	def dispatch(self, *args, **kwargs):
-		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
-		
+def months_diff(a, b):
+	return abs((a.year - b.year) * 12 + a.month - b.month)
+
 class AppointmentCalendarView(ListView):
 	context_object_name = "appointments"
 	template_name="appointments/appointment_calendar.html"
@@ -94,6 +96,13 @@ class AppointmentCalendarView(ListView):
 		date_start = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d")
 
 		context['week'] = generate_calendar_dict(self, date_start)
+		next_week = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d") + datetime.timedelta(days = 7)
+		prev_week = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d") + datetime.timedelta(days = -7)
+
+		if months_diff(next_week, datetime.datetime.now()) < 12:
+			context['next_week'] = next_week
+		if months_diff(prev_week, datetime.datetime.now()) < 12:
+			context['prev_week'] = prev_week
 		return context
 		
 class AppointmentCreateView(CreateView):		

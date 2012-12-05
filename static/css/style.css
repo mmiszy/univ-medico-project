@@ -189,9 +189,11 @@ header form button span::before {
   margin: 0 3px;
 }
 .main form fieldset {
-  padding: 5px 15px;
-  margin: 0;
+  padding: 7px 15px;
+  margin: 0 auto;
+  width: 200px;
   border: none;
+  text-align: center;
 }
 .main form fieldset input:not([type="date"]):not([type="time"]),
 .main form fieldset textarea {
@@ -202,12 +204,10 @@ header form button span::before {
   -moz-box-shadow: 1px 1px 2px #c4c4c4;
   box-shadow: 1px 1px 2px #c4c4c4;
   -webkit-appearance: none;
+  margin-top: 5px;
 }
-.main form fieldset input,
-.main form fieldset textarea,
-.main form fieldset select {
-  margin: 0 auto;
-  display: block;
+.main form fieldset textarea {
+  resize: vertical;
 }
 .main form button {
   display: block;
@@ -233,25 +233,6 @@ header form button span::before {
   background: -moz-linear-gradient(top, #f56734, #ab3308);
   background: -ms-linear-gradient(top, #f56734, #ab3308);
   background: -o-linear-gradient(top, #f56734, #ab3308);
-}
-.main form label {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-.main form label.focusable:active,
-.main form label.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  width: auto;
 }
 .main #slider-wrapper {
   position: relative;

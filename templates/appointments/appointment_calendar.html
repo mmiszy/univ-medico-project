@@ -3,8 +3,8 @@
 {% block content %}
 	<div class="calendar">
 		{% for i, days in week.items %}
-			{% if forloop.first %}
-				dsadasdadsa
+			{% if forloop.first and prev_week %}
+				<a href="/appointments/calendar/{{ prev_week|date:"Y-m-d" }}">≪ Poprzedni tydzień</a>
 			{% endif %}
 			<div class="day">
 				<h2>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
@@ -18,8 +18,8 @@
 					{% endif %}
 				{% endfor %}
 			</div>
-			{% if forloop.last %}
-				dsadasdadsa
+			{% if forloop.last and next_week %}
+				<a href="/appointments/calendar/{{ next_week|date:"Y-m-d" }}">Następny tydzień ≫</a>
 			{% endif %}
 		{% endfor %}
 	</div>
