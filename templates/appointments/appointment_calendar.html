@@ -1,29 +1,26 @@
 {% extends "main.html" %}
 
 {% block content %}
-	<table>
-		<tr>
-			{% for i, days in week.items %}
-				<td>
-					{{ i }}:<br><br>
-					{% for j, hours in days.items %}
-						{% if hours %}
-							<a href="/appointments/create/{{ i }}/{{ hours|date:"Hi" }}">{{ hours|date:"H:i" }}</a><br>
-						{% else %}
-							penis<br>
-						{% endif %}
-					{% endfor %}
-				</td>
-			{% endfor %}
-		</tr>
-	</table>
-	{% for o in appointments %}
-	<!-- <tr>
-		<td><a href="/appointments/{{ o.id }}/">{{ o.title }}</a></td>
-		<td>{{ o.date }}</td>
-		<td>{{ o.time }}</td>
-		<td>{{ o.notes }}</td>
-		<td>{{ o.status }}</td>
-	</tr> -->
-	{% endfor %}
+	<div class="calendar">
+		{% for i, days in week.items %}
+			{% if forloop.first and prev_week %}
+				<a href="/appointments/calendar/{{ prev_week|date:"Y-m-d" }}">≪ Poprzedni tydzień</a>
+			{% endif %}
+			<div class="day">
+				<h2>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
+				{% for j, hours in days.items %}
+					{% if hours %}
+						<div class="free hour">
+							<a href="/appointments/create/{{ i }}/{{ hours|date:"Hi" }}">{{ hours|date:"H:i" }}</a>
+						</div>
+					{% else %}
+						<div class="taken hour"><span>zajęty</span></div>
+					{% endif %}
+				{% endfor %}
+			</div>
+			{% if forloop.last and next_week %}
+				<a href="/appointments/calendar/{{ next_week|date:"Y-m-d" }}">Następny tydzień ≫</a>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}

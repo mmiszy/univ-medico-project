@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,11 +15,11 @@ def gethash(id):
 
 from time import strftime, gmtime
 class Appointment(models.Model):
-	title = models.CharField(max_length=50)
-	date = models.DateField('date of the appointment')
-	time = models.TimeField('time of the appointment')
-	notes = models.TextField(max_length=500)
-	slug = models.SlugField(max_length=5, db_index = True)
+	title = models.CharField('Tytuł', max_length=50)
+	date = models.DateField('Data spotkania')
+	time = models.TimeField('Godzina spotkania')
+	notes = models.TextField('Notatki', max_length=500)
+	slug = models.SlugField('URL', max_length=5, db_index = True)
 	
 	status = models.SmallIntegerField(default = 0, choices = (
 		(0, 'New'),

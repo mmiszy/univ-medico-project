@@ -44,40 +44,64 @@ class AppointmentConfirmView(UpdateView):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
 		context['pk'] = self.kwargs['pk']
 		return context
-		
+
 	@method_decorator(permission_required('Appointment.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
-		
+
+def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
+	week = OrderedDict()
+	for i in range(6):
+		hours = OrderedDict()
+		day = (date_start + datetime.timedelta(days = i))
+		for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
+			dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
+			hours[dateNtime.strftime("%H:%M")] = dateNtime
+		week[day.strftime("%Y-%m-%d")] = hours
+
+	for i in AppointmentCalendarView.get_queryset(self):
+		if i.date.strftime("%Y-%m-%d") in week and i.time.strftime("%H:%M") in week[i.date.strftime("%Y-%m-%d")]:
+			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
+	return week
+
+def normalize_date_to_monday(self, date):	# moves the date to nearest monday
+	temp_date = datetime.datetime.strptime(date, "%Y-%m-%d")
+	if temp_date.strftime("%u") == '7':
+		temp_date = temp_date + datetime.timedelta(days = 1)
+	else:
+		while temp_date.strftime("%u") != '1':
+			temp_date = temp_date + datetime.timedelta(days = -1)
+
+	return temp_date.strftime("%Y-%m-%d")
+
+def months_diff(a, b):
+	return abs((a.year - b.year) * 12 + a.month - b.month)
+
 class AppointmentCalendarView(ListView):
 	context_object_name = "appointments"
 	template_name="appointments/appointment_calendar.html"
 
 	def get_queryset(self):
+		norm_date = normalize_date_to_monday(self, self.kwargs['date_start'])
 		return Appointment.objects.filter(
-			date__gte = self.kwargs['date_start']
+			date__gte = norm_date
 		).filter(
-			date__lte = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+			date__lte = datetime.datetime.strptime(norm_date, "%Y-%m-%d")
 			 + datetime.timedelta(days = 7)
 		)
 
 	def get_context_data(self, **kwargs):
 		context = super(AppointmentCalendarView, self).get_context_data(**kwargs)
-		date_start = datetime.datetime.strptime(self.kwargs['date_start'], "%Y-%m-%d")
+		date_start = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d")
 
-		week = OrderedDict()
-		for i in range(7):
-			hours = OrderedDict()
-			day = (date_start + datetime.timedelta(days = i))
-			for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
-				dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
-				hours[dateNtime.strftime("%H:%M")] = dateNtime
-			week[day.strftime("%Y-%m-%d")] = hours
+		context['week'] = generate_calendar_dict(self, date_start)
+		next_week = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d") + datetime.timedelta(days = 7)
+		prev_week = datetime.datetime.strptime(normalize_date_to_monday(self, self.kwargs['date_start']), "%Y-%m-%d") + datetime.timedelta(days = -7)
 
-		for i in AppointmentCalendarView.get_queryset(self):
-			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
-			
-		context['week'] = week
+		if months_diff(next_week, datetime.datetime.now()) < 12:
+			context['next_week'] = next_week
+		if months_diff(prev_week, datetime.datetime.now()) < 12:
+			context['prev_week'] = prev_week
 		return context
 		
 class AppointmentCreateView(CreateView):		
@@ -88,7 +112,7 @@ class AppointmentCreateView(CreateView):
 	def get(self, request, *args, **kwargs):
 		self.object = None
 		form_class=None
-		if self.kwargs['date']:
+		if self.kwargs and 'date' in self.kwargs:
 			form_class = AppointmentDirectCreateForm
 		else:
 			form_class = self.get_form_class()
@@ -103,7 +127,7 @@ class AppointmentCreateView(CreateView):
 	def post(self, request, *args, **kwargs):
 		self.object = None
 		form_class=None
-		if self.kwargs['date']:
+		if self.kwargs and 'date' in self.kwargs:
 			form_class = AppointmentDirectCreateForm
 		else:
 			form_class = self.get_form_class()
@@ -111,7 +135,7 @@ class AppointmentCreateView(CreateView):
 		form = self.get_form(form_class)
 		form.instance.author = request.user
 		
-		if self.kwargs['date']:
+		if 'date' in self.kwargs:
 			form.instance.date = datetime.datetime.strptime(self.kwargs['date'], "%Y-%m-%d")
 			form.instance.time = datetime.datetime.strptime(self.kwargs['time'], "%H%M")
 		
@@ -139,6 +163,9 @@ def redirectByHash(req):
 	except Appointment.DoesNotExist:
 		raise Http404
 	return redirect("/appointments/id/"+req.GET['hash'], permanent=True)
+
+def redirectToCurrentDate(req):
+	return redirect("/appointments/calendar/" + datetime.datetime.now().strftime("%Y-%m-%d"), permanent=False)
  
 def show(req, id):
 	try:
