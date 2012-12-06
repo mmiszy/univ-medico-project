@@ -1,12 +1,11 @@
 # Create your views here.
-from django.shortcuts import render_to_response
 from appointments.models import *
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
 from django.forms.widgets import Select
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 
@@ -93,6 +92,10 @@ class AppointmentCreateView(CreateView):
 			form_class = AppointmentDirectCreateForm
 		else:
 			form_class = self.get_form_class()
+
+		date = self.kwargs['date']
+		if date < datetime.datetime.now().strftime("%Y-%m-%d"):
+			return render(self.request, "400.html", status=400)
 
 		form = self.get_form(form_class)
 		return self.render_to_response(self.get_context_data(form=form))

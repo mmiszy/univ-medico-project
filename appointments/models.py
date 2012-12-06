@@ -39,7 +39,8 @@ class Appointment(models.Model):
 	class Meta:
 		permissions = (
 			("confirm_app", "Can confirm and schedule appointment"),
-			("view_all_app", "Can view all appointments")
+			("view_all_app", "Can view all appointments"),
+			("create_more_than_one_app", "Can create more than one appointment")
 		)
 		
 class PatientCard(models.Model):
