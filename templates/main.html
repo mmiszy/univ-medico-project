@@ -39,7 +39,7 @@
                     <h2>Rejestracja pacjentów</h2>
                 </hgroup>
             </a>
-            <ul>
+            <!--<ul>
                 <li>
                     <a itemprop="telephone" href="tel:+48555444333"><span>+48</span><span>555</span><span>444</span><span>333</span></a>
                 </li>
@@ -47,8 +47,17 @@
             <form action="/appointments/id/" method="GET">
                 <input type="text" pattern="[0-9a-fA-F]{5}" placeholder="Wpisz numer rejestracji..." id="hash" name="hash">
                 <button type="submit"><span class="ss-search"></span></button>
-            </form>
+            </form>-->
         </header>
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="/appointments/list">Lista spotkań</a></li>
+                <li><a href="/accounts/logout">Wyloguj</a></li>
+            {% else %}
+                <li><a href="/accounts/login">Zaloguj</a></li>
+                <li><a href="/accounts/create">Zarejestruj</a></li>
+            {% endif %}
+        </ul>
 
         <div class="main">
         	{% block content %}

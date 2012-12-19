@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 def get_admin():
 	return User.objects.get(id = 1)
@@ -22,9 +24,9 @@ class Appointment(models.Model):
 	slug = models.SlugField('URL', max_length=5, db_index = True)
 	
 	status = models.SmallIntegerField(default = 0, choices = (
-		(0, 'New'),
-		(1, 'Confirmed'),
-		(99, 'Declined'),
+		(0, 'Niepotwierdzone'),
+		(1, 'Potwierdzone'),
+		(99, 'Anulowane'),
 		)
 	)
 	
@@ -54,3 +56,10 @@ def create_patient_card(sender, instance, created, **kwargs):
         PatientCard.objects.create(user=instance)
        
 post_save.connect(create_patient_card, sender=User)
+
+
+# content_type = ContentType.objects.get(model='appointment')
+# Permission.objects.create(codename='confirm_app', name='Może potwierdzać spotkania', content_type=content_type)
+# Permission.objects.create(codename='view_all_app', name='Może widzieć wszystkie spotkania', content_type=content_type)
+# Permission.objects.create(codename='create_more_than_one_app', name='Może dodawać więcej niż jedno spotkanie', content_type=content_type)
+

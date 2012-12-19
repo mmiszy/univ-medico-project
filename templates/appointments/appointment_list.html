@@ -15,7 +15,15 @@
 			<td>{{ o.date }}</td>
 			<td>{{ o.time }}</td>
 			<td>{{ o.notes }}</td>
-			<td>{{ o.status }}</td>
+			<td>
+				{% if o.status == 0 %}
+					Niepotwierdzone
+				{% elif o.status == 1 %}
+					Potwierdzone
+				{% elif o.status == 99 %}
+					Anulowane
+				{% endif %}
+			</td>
 		</tr>
 		{% endfor %}
 	</table>
