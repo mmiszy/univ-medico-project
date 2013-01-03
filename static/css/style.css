@@ -137,26 +137,6 @@ header form button span::before {
   border-radius: 5px;
   position: relative;
 }
-.main form hgroup:after {
-  border-color: #bc390b;
-  background-color: #f35f2a;
-  content: "lub";
-  text-transform: uppercase;
-  font-weight: normal;
-  font-size: 0.8em;
-  height: 35px;
-  line-height: 35px;
-  position: absolute;
-  left: 50%;
-  margin-left: -17.5px;
-  bottom: -20px;
-  display: inline-block;
-  border-width: 2px 0 0 2px;
-  border-radius: 35px;
-  border-style: solid;
-  width: 35px;
-  color: white;
-}
 .main form h1,
 .main form h2 {
   margin: 0;

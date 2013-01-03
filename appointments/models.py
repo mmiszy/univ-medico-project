@@ -17,11 +17,11 @@ def gethash(id):
 
 from time import strftime, gmtime
 class Appointment(models.Model):
-	title = models.CharField('Tytuł', max_length=50)
+	#title = models.CharField('Tytuł', max_length=50)
 	date = models.DateField('Data spotkania')
 	time = models.TimeField('Godzina spotkania')
-	notes = models.TextField('Notatki', max_length=500)
-	slug = models.SlugField('URL', max_length=5, db_index = True)
+	notes = models.TextField('Informacje dla lekarza', max_length=500, blank=True)
+	slug = models.SlugField('URL', max_length=5, db_index=True)
 	
 	status = models.SmallIntegerField(default = 0, choices = (
 		(0, 'Niepotwierdzone'),
