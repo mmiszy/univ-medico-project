@@ -77,6 +77,7 @@ class AppointmentDeleteView(DeleteView):
 		 return super(AppointmentDeleteView, self).dispatch(*args, **kwargs)
 
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
+	date_format = "%Y-%m-%d %u"
 	week = OrderedDict()
 	for i in range(6):
 		hours = OrderedDict()
@@ -84,11 +85,11 @@ def generate_calendar_dict(self, date_start):	# generates dict of taken/free app
 		for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
 			dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
 			hours[dateNtime.strftime("%H:%M")] = dateNtime
-		week[day.strftime("%Y-%m-%d")] = hours
+		week[day.strftime(date_format)] = hours
 
 	for i in AppointmentCalendarView.get_queryset(self):
-		if i.date.strftime("%Y-%m-%d") in week and i.time.strftime("%H:%M") in week[i.date.strftime("%Y-%m-%d")]:
-			week[i.date.strftime("%Y-%m-%d")][i.time.strftime("%H:%M")] = None
+		if i.date.strftime(date_format) in week and i.time.strftime("%H:%M") in week[i.date.strftime(date_format)]:
+			week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = None
 	return week
 
 def normalize_date_to_monday(self, date):	# moves the date to nearest monday

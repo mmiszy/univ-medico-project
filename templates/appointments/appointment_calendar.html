@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% load form_extras %}
 
 {% block content %}
 	<div class="calendar">
@@ -7,7 +8,7 @@
 				<a href="/appointments/calendar/{{ prev_week|date:"Y-m-d" }}">≪ Poprzedni tydzień</a>
 			{% endif %}
 			<div class="day">
-				<h2>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
+				<h2>{{ i|slice:"11:12"|polish_day }}<br>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
 				{% for j, hours in days.items %}
 					{% if hours %}
 						<div class="free hour">
