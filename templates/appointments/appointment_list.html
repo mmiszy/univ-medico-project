@@ -10,7 +10,11 @@
 		</thead>
 		{% for o in appointments %}
 		<tr>
-			<td><a href="/appointments/{{ o.id }}/">{{ o.date }}</a></td>
+			<td>
+				{% if link %}<a href="/appointments/{{ o.id }}/">{% endif %}
+				{{ o.date }}
+				{% if link %}</a>{% endif %}
+			</td>
 			<td>{{ o.time }}</td>
 			<td>{{ o.notes }}</td>
 			<td>
@@ -20,6 +24,11 @@
 					Potwierdzone
 				{% elif o.status == 99 %}
 					Anulowane
+				{% endif %}
+			</td>
+			<td>
+				{% if o.status == 0 or link %}
+					<a href="/appointments/delete/{{ o.id }}/">Odwołaj</a>
 				{% endif %}
 			</td>
 		</tr>

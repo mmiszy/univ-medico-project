@@ -52,7 +52,7 @@
         <ul>
             {% if user.is_authenticated %}
                 <li><a href="/appointments/list">Lista spotkań</a></li>
-                <li><a href="/accounts/logout">Wyloguj</a></li>
+                <li><a href="/accounts/logout">Wyloguj ({{ user.username }})</a></li>
             {% else %}
                 <li><a href="/accounts/login">Zaloguj</a></li>
                 <li><a href="/accounts/create">Zarejestruj</a></li>

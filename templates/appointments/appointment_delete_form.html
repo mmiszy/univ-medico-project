@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <h2>Czy na pewno chcesz usunąć - {{ appointment.author }} ({{ appointment.date|date:"Y-m-d" }}, {{ appointment.time|date:"H:i" }})</h2>
+    <form method="post">{% csrf_token %}
+        {% include "form_snippet.html" with form=form %}
+        <button type="submit" value="OK">Potwierdź</button>
+    </form>
+{% endblock %}

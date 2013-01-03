@@ -1,17 +1,23 @@
 # Create your views here.
 from appointments.models import *
-from django.views.generic import CreateView, UpdateView, DetailView, ListView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django.http import Http404
 from django.forms.widgets import Select
 from django.shortcuts import redirect, render, render_to_response
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.utils.decorators import method_decorator
+
+from django.contrib.auth.models import User
+
+from custom import *
 
 from collections import OrderedDict
 import json
 import datetime
+
+
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:
@@ -33,6 +39,10 @@ class AppointmentConfirmForm(ModelForm):
 		widgets = {
 			'status': Select(choices = STATUS_CHOICES),
 		}
+
+def user_can_delete_own(request, *args, **kwargs):
+	app = Appointment.objects.get(pk = kwargs['pk'])
+	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
 			
 class AppointmentConfirmView(UpdateView):
 	template_name="appointments/appointment_confirm_form.html"
@@ -43,11 +53,28 @@ class AppointmentConfirmView(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
 		context['pk'] = self.kwargs['pk']
+		context['appointment'] = Appointment.objects.get(pk = self.kwargs['pk'])
 		return context
 
+	# @method_decorator(ext_user_passes_test(user_can_edit_own))
 	@method_decorator(permission_required('Appointment.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
+
+class AppointmentDeleteView(DeleteView):
+	template_name="appointments/appointment_delete_form.html"
+	model=Appointment
+	success_url="/appointments/list/"
+	
+	def get_context_data(self, **kwargs):
+		context = super(AppointmentDeleteView, self).get_context_data(**kwargs)
+		context['pk'] = self.kwargs['pk']
+		context['appointment'] = Appointment.objects.get(pk = self.kwargs['pk'])
+		return context
+
+	@method_decorator(ext_user_passes_test(user_can_delete_own, "/appointments/list"))
+	def dispatch(self, *args, **kwargs):
+		 return super(AppointmentDeleteView, self).dispatch(*args, **kwargs)
 
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
 	week = OrderedDict()
@@ -152,6 +179,12 @@ class AppointmentListView(ListView):
    			return Appointment.objects.all()
    		else:
    			return Appointment.objects.filter(author = self.request.user)
+
+   	def get_context_data(self, **kwargs):
+   		context = super(AppointmentListView, self).get_context_data(**kwargs)
+   		if self.request.user.has_perm("Appointment.view_all_app"):
+   			context['link'] = True
+   		return context
 	
 def index(req):
 	appos = Appointment.objects.all()

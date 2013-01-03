@@ -21,7 +21,7 @@ class Appointment(models.Model):
 	date = models.DateField('Data spotkania')
 	time = models.TimeField('Godzina spotkania')
 	notes = models.TextField('Informacje dla lekarza', max_length=500, blank=True)
-	slug = models.SlugField('URL', max_length=5, db_index=True)
+	slug = models.SlugField('Slug', max_length=5, db_index=True)
 	
 	status = models.SmallIntegerField(default = 0, choices = (
 		(0, 'Niepotwierdzone'),
@@ -32,7 +32,7 @@ class Appointment(models.Model):
 	
 	author = models.ForeignKey(User)
 	def __unicode__(self):
-       		return self.title
+		return u'%s' % (self.author.username)
        		
 	def save(self, *args, **kwargs):
 		if not self.id:
