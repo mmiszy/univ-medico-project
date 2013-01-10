@@ -123,6 +123,9 @@ header form button span::before {
   line-height: 0;
   height: 0;
 }
+.main .in-the-past {
+  color: #bbb;
+}
 .main form {
   background-color: #e6e6e6;
   margin: 20px 0;
