@@ -48,6 +48,7 @@ class Appointment(models.Model):
 		
 class PatientCard(models.Model):
 	user = models.OneToOneField(User)
+	phone_number = models.CharField(max_length=15)
 	description = models.TextField(max_length=2000)
 
 from django.db.models.signals import post_save

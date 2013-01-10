@@ -3,6 +3,7 @@ from appointments.models import *
 from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
 from django.http import HttpResponse
 from django.forms import ModelForm
+from django import forms
 from django.http import Http404
 from django.forms.widgets import Select
 from django.shortcuts import redirect, render, render_to_response
@@ -10,7 +11,6 @@ from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.utils.decorators import method_decorator
 
 from django.contrib.auth.models import User
-
 from custom import *
 
 from collections import OrderedDict
@@ -189,6 +189,48 @@ class AppointmentListView(ListView):
    		if self.request.user.has_perm("Appointment.view_all_app"):
    			context['link'] = True
    		return context
+
+#class UserProfileForm(ModelForm):
+#	first_name = forms.CharField(label='imie', max_length=30)
+#	last_name = forms.CharField(label='imie', max_length=30)
+	
+#	class Meta:
+#		model = PatientCard
+#		#fields= ('description',)
+#		exclude=('user',)
+
+class UserProfileForm(ModelForm):
+    first_name = forms.CharField(label='Prnom', max_length=30)
+    last_name = forms.CharField(label='Nom', max_length=30)
+
+    def __init__(self, *args, **kw):
+        super(UserProfileForm, self).__init__(*args, **kw)
+        self.fields['first_name'].initial = self.instance.user.first_name
+        self.fields['last_name'].initial = self.instance.user.last_name
+
+        self.fields.keyOrder = [
+            'first_name',
+            'last_name',
+            'phone_number',
+            'description',
+            ]
+
+    def save(self, *args, **kw):
+        super(UserProfileForm, self).save(*args, **kw)
+        self.instance.user.first_name = self.cleaned_data.get('first_name')
+        self.instance.user.last_name = self.cleaned_data.get('last_name')
+        self.instance.user.save()
+
+    class Meta:
+        model = PatientCard
+	
+class UserEditView(UpdateView):
+	form_class=UserProfileForm
+	template_name="registration/user_form.html"
+	def get_success_url(self):
+		return "/accounts/edit/"
+	def get_object(self, queryset=None):
+		return self.request.user.get_profile()
 	
 def index(req):
 	appos = Appointment.objects.all()

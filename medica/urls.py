@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView
 
 from appointments.models import Appointment
+from appointments.views import UserEditView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
     )),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
+    url(r'^accounts/edit/$', UserEditView.as_view()),
 
     url(r'^accounts/profile/$', redirectAfterLogin),
 
