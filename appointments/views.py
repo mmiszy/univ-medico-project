@@ -77,7 +77,7 @@ class AppointmentDeleteView(DeleteView):
 		 return super(AppointmentDeleteView, self).dispatch(*args, **kwargs)
 
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
-	date_format = "%Y-%m-%d %u"
+	date_format = "%Y-%m-%d-%u"
 	week = OrderedDict()
 	for i in range(6):
 		hours = OrderedDict()
@@ -177,9 +177,9 @@ class AppointmentListView(ListView):
    	
    	def get_queryset(self):
    		if self.request.user.has_perm("Appointment.view_all_app"):
-   			return Appointment.objects.all()
+   			return Appointment.objects.order_by('-date', 'time').all()
    		else:
-   			return Appointment.objects.filter(author = self.request.user)
+   			return Appointment.objects.order_by('-date', 'time').filter(author = self.request.user)
 
    	def get_context_data(self, **kwargs):
    		context = super(AppointmentListView, self).get_context_data(**kwargs)
