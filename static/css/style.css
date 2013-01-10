@@ -294,6 +294,12 @@ header form button span::before {
 .main .calendar .hour.taken {
   background-color: #DC2127;
 }
+.main .calendar .hour.in-the-past {
+  background-color: #808080;
+}
+.main .calendar .hour.in-the-past:hover {
+  background-color: #808080;
+}
 footer {
   background-color: #1c1e1f;
   min-height: 50px;

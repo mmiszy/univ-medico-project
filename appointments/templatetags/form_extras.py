@@ -15,13 +15,28 @@ def polish_day(val):
 
 @register.filter()
 def isInThePast(date, time):
-    if datetime.datetime.now().date() < date:
-        return False;
-    elif datetime.datetime.now().time() < time:
-        return False;
-    else:
-        return True;
+    try:
+        if date and datetime.datetime.now().date() < date:
+            return False;
+        elif time and datetime.datetime.now().time() < time:
+            return False;
+        else:
+            return True;
+    except TypeError:
+        if date and datetime.datetime.now() < date:
+            return False;
+        else:
+            return True;
 
 @register.filter()
 def getUsername(author):
     return author.username
+
+
+@register.filter()
+def toDatetime(date, time):
+    dateNew = datetime.datetime.strptime(date[:10] + time[:5], "%Y-%m-%d%H:%M")
+    return dateNew
+
+
+

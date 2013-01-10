@@ -11,13 +11,19 @@
 				<h2>{{ i|slice:"11:12"|polish_day }}<br>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
 				{% for j, hours in days.items %}
 					{% if hours and hours|date:"Hi" %}
-						<div class="free hour">
-							<a href="/appointments/create/{{ i }}/{{ hours|date:"Hi" }}">{{ hours|date:"H:i" }}</a>
-						</div>
+						{% if i|toDatetime:j|isInThePast:"" %}
+							<div class="hour in-the-past">
+								<span>---</span>
+							</div>
+						{% else %}
+							<div class="free hour">
+								<a href="/appointments/create/{{ i }}/{{ hours|date:"Hi" }}">{{ hours|date:"H:i" }}</a>
+							</div>
+						{% endif %}
 					{% elif hours.author.username %}
-						<div class="taken hour"><a href="/appointments/{{ hours.id }}">{{ hours.author.username }}</a></div>
+						<div class="taken hour {% if i|toDatetime:j|isInThePast:"" %}in-the-past{% endif %}"><a href="/appointments/{{ hours.id }}">{{ hours.author.username }}</a></div>
 					{% else %}
-						<div class="taken hour"><span>zajęty</span></div>
+						<div class="taken hour {% if i|toDatetime:j|isInThePast:"" %}in-the-past{% endif %}"><span>zajęty</span></div>
 					{% endif %}
 				{% endfor %}
 			</div>
