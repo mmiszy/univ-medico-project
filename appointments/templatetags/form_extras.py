@@ -9,9 +9,9 @@ def field_type(field):
     return field.field.__class__.__name__
 
 @register.filter()
-def polish_day(val):
+def polish_day(date):
     polish_days = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So']
-    return polish_days[int(val)-1]
+    return polish_days[int(date.strftime("%u"))-1]
 
 @register.filter()
 def isInThePast(date, time):
@@ -35,7 +35,7 @@ def getUsername(author):
 
 @register.filter()
 def toDatetime(date, time):
-    dateNew = datetime.datetime.strptime(date[:10] + time[:5], "%Y-%m-%d%H:%M")
+    dateNew = datetime.datetime.strptime(date[:10] + (time[:5] or "00:00"), "%Y-%m-%d%H:%M")
     return dateNew
 
 

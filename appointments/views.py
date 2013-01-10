@@ -77,7 +77,7 @@ class AppointmentDeleteView(DeleteView):
 		 return super(AppointmentDeleteView, self).dispatch(*args, **kwargs)
 
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
-	date_format = "%Y-%m-%d-%u"
+	date_format = "%Y-%m-%d"
 	week = OrderedDict()
 	for i in range(6):
 		hours = OrderedDict()

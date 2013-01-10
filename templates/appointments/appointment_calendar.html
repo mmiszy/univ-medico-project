@@ -8,7 +8,7 @@
 				<a href="/appointments/calendar/{{ prev_week|date:"Y-m-d" }}">≪ Poprzedni tydzień</a>
 			{% endif %}
 			<div class="day">
-				<h2>{{ i|slice:"11:12"|polish_day }}<br>{{ i|slice:"8:10" }}.{{ i|slice:"5:7" }}</h2>
+				<h2>{{ i|toDatetime:""|polish_day }}<br>{{ i|toDatetime:""|date:"d.m" }}</h2>
 				{% for j, hours in days.items %}
 					{% if hours and hours|date:"Hi" %}
 						{% if i|toDatetime:j|isInThePast:"" %}
