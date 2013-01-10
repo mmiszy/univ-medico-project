@@ -89,7 +89,10 @@ def generate_calendar_dict(self, date_start):	# generates dict of taken/free app
 
 	for i in AppointmentCalendarView.get_queryset(self):
 		if i.date.strftime(date_format) in week and i.time.strftime("%H:%M") in week[i.date.strftime(date_format)]:
-			week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = None
+			if (self.request.user.has_perm('Appointment.confirm_app') or (self.request.user.id == i.author.id)):
+				week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = i
+			else:
+				week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = None
 	return week
 
 def normalize_date_to_monday(self, date):	# moves the date to nearest monday

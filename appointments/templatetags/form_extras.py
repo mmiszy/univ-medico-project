@@ -21,3 +21,7 @@ def isInThePast(date, time):
         return False;
     else:
         return True;
+
+@register.filter()
+def getUsername(author):
+    return author.username
