@@ -12,9 +12,7 @@
 		{% for o in appointments %}
 		<tr class="{% if o.date|isInThePast:o.time %}in-the-past{% else %}in-the-future{% endif %}">
 			<td>
-				{% if link %}<a href="/appointments/{{ o.id }}/">{% endif %}
-				{{ o.date }}
-				{% if link %}</a>{% endif %}
+				<a href="/appointments/id/{{ o.slug }}/">{{ o.date }}</a>
 			</td>
 			<td>{{ o.time }}</td>
 			<td>{{ o.notes }}</td>

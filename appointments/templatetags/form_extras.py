@@ -17,16 +17,18 @@ def polish_day(date):
 def isInThePast(date, time):
     try:
         if date and datetime.datetime.now().date() < date:
-            return False;
+            return False
+        elif date and datetime.datetime.now().date() > date:
+            return True
         elif time and datetime.datetime.now().time() < time:
-            return False;
+            return False
         else:
-            return True;
+            return True
     except TypeError:
         if date and datetime.datetime.now() < date:
-            return False;
+            return False
         else:
-            return True;
+            return True
 
 @register.filter()
 def getUsername(author):
