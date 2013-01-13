@@ -25,12 +25,12 @@ def user_can_modify_own(request, *args, **kwargs):
 class AppointmentCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
-		exclude = ('author', 'status', 'slug')
+		exclude = ('author', 'status', 'slug', 'doctor_notes')
 		
 class AppointmentDirectCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
-		exclude = ('author', 'status', 'slug', 'date', 'time')
+		exclude = ('author', 'status', 'slug', 'date', 'time', 'doctor_notes')
 	
 class AppointmentConfirmForm(ModelForm):
 	class Meta:
@@ -43,16 +43,26 @@ class AppointmentConfirmForm(ModelForm):
 			'status': Select(choices = STATUS_CHOICES),
 		}
 		
-class AppointmentEditForm(ModelForm):
+class AppointmentPatientEditForm(ModelForm):
 	class Meta:
 		model = Appointment
 		fields = ('notes',)
+		
+class AppointmentDoctorEditForm(ModelForm):
+	class Meta:
+		model = Appointment
+		fields = ('notes','doctor_notes')		
 
 class AppointmentEditView(UpdateView):
 	model=Appointment
 	template_name="appointments/appointment_confirm_form.html"
-	form_class = AppointmentEditForm
 	success_url="/appointments/list/"
+	
+	def get_form_class(self):
+		if self.request.user.has_perm('Appointment.confirm_app'):
+			return AppointmentDoctorEditForm
+		else:
+			return AppointmentPatientEditForm
 	
 	@method_decorator(ext_user_passes_test(user_can_modify_own, "/appointments/list"))
 	def dispatch(self, *args, **kwargs):

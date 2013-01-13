@@ -7,6 +7,7 @@
 			<th>Data</th>
 			<th>Godzina</th>
 			<th>Opis</th>
+			<th>Informacje od Lekarza</th>
 			<th>Status</th>
 		</thead>
 		{% for o in appointments %}
@@ -16,6 +17,7 @@
 			</td>
 			<td>{{ o.time }}</td>
 			<td>{{ o.notes }}</td>
+			<td>{{ o.doctor_notes }}</td>
 			<td>
 				{% if o.status == 0 %}
 					Niepotwierdzone
