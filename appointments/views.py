@@ -17,6 +17,9 @@ from collections import OrderedDict
 import json
 import datetime
 
+def user_can_modify_own(request, *args, **kwargs):
+	app = Appointment.objects.get(pk = kwargs['pk'])
+	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
 
 
 class AppointmentCreateForm(ModelForm):
@@ -39,10 +42,21 @@ class AppointmentConfirmForm(ModelForm):
 		widgets = {
 			'status': Select(choices = STATUS_CHOICES),
 		}
+		
+class AppointmentEditForm(ModelForm):
+	class Meta:
+		model = Appointment
+		fields = ('notes',)
 
-def user_can_delete_own(request, *args, **kwargs):
-	app = Appointment.objects.get(pk = kwargs['pk'])
-	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
+class AppointmentEditView(UpdateView):
+	model=Appointment
+	template_name="appointments/appointment_confirm_form.html"
+	form_class = AppointmentEditForm
+	success_url="/appointments/list/"
+	
+	@method_decorator(ext_user_passes_test(user_can_modify_own, "/appointments/list"))
+	def dispatch(self, *args, **kwargs):
+		 return super(AppointmentEditView, self).dispatch(*args, **kwargs)
 			
 class AppointmentConfirmView(UpdateView):
 	template_name="appointments/appointment_confirm_form.html"
@@ -72,7 +86,7 @@ class AppointmentDeleteView(DeleteView):
 		context['appointment'] = Appointment.objects.get(pk = self.kwargs['pk'])
 		return context
 
-	@method_decorator(ext_user_passes_test(user_can_delete_own, "/appointments/list"))
+	@method_decorator(ext_user_passes_test(user_can_modify_own, "/appointments/list"))
 	def dispatch(self, *args, **kwargs):
 		 return super(AppointmentDeleteView, self).dispatch(*args, **kwargs)
 

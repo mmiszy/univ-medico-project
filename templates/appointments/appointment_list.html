@@ -30,6 +30,9 @@
 					{% if not o.date|isInThePast:o.time %}<a href="/appointments/delete/{{ o.id }}/">Odwołaj</a>{% endif %}
 				{% endif %}
 			</td>
+			<td>
+				{% if not o.date|isInThePast:o.time %}<a href="/appointments/edit/{{ o.id }}/">Edytuj</a>{% endif %}
+			</td>
 		</tr>
 		{% endfor %}
 	</table>
