@@ -1,6 +1,6 @@
 # Create your views here.
 from appointments.models import *
-from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView
+from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView, FormView
 from django.http import HttpResponse
 from django.forms import ModelForm
 from django import forms
@@ -21,6 +21,23 @@ def user_can_modify_own(request, *args, **kwargs):
 	app = Appointment.objects.get(pk = kwargs['pk'])
 	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
 
+
+from utils import *
+class WorkingHoursSetForm(forms.Form):
+	#start = forms.TimeField(label=u"Poczatkowa godzina pracy", initial=lambda: datetime.datetime.strptime(option_get("start_work_hours"), "%H:%M"))
+	#end = forms.TimeField(label=u"Koncowa godzina pracy", initial=lambda: datetime.datetime.strptime(option_get("end_work_hours"), "%H:%M"))
+	start = forms.CharField(label=u"Poczatkowa godzina pracy", initial=lambda: option_get("start_work_hours"))
+	end = forms.CharField(label=u"Koncowa godzina pracy", initial=lambda: option_get("end_work_hours"))
+	
+	def save(self):
+		cd = self.cleaned_data
+		option_set("start_work_hours", cd['start'])
+		option_set("end_work_hours", cd['end'])
+
+class WorkingHoursSetView(FormView):
+	form_class=WorkingHoursSetForm
+	success_url="/"
+	template_name="appointments/appointment_form.html"
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:

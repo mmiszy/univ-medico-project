@@ -15,7 +15,7 @@
 			{% if field|field_type == "DateField" %}
 				<input id="{{ field.auto_id }}" type="date" name="{{ field.html_name }}" value="{% if form.field.value %}{{ form.field.value }}{% else %}{% now "Y-m-d" %}{% endif %}">
 			{% elif field|field_type == "TimeField" %}
-				<input id="{{ field.auto_id }}" type="time" name="{{ field.html_name }}" value="{% if form.field.value %}{{ form.field.value }}{% else %}{% now "H:i" %}{% endif %}">
+				<input id="{{ field.auto_id }}" type="time" name="{{ field.html_name }}" value="{% if form.field.value %}{{ form.field.value }}{% else %}{{ form.field.initial }}{% endif %}">
 			{% else %}
 				{{ field }}
 			{% endif %}

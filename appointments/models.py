@@ -52,6 +52,10 @@ class PatientCard(models.Model):
 	phone_number = models.CharField(max_length=15)
 	description = models.TextField(max_length=2000)
 
+class Option(models.Model):
+	name = models.CharField(u"Nazwa", max_length=20, db_index=True)
+	value = models.TextField(u"Wartość")
+
 from django.db.models.signals import post_save
 def create_patient_card(sender, instance, created, **kwargs):
     if created:
