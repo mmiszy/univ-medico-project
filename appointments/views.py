@@ -47,6 +47,10 @@ class WorkingHoursSetView(FormView):
 	def form_valid(self, form):
 		form.save()
 		return super(WorkingHoursSetView, self).form_valid(form)
+		
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		 return super(WorkingHoursSetView, self).dispatch(*args, **kwargs)
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:
@@ -319,6 +323,10 @@ class VacationAddView(FormView):
 	def form_valid(self, form):
 		form.save()
 		return super(VacationAddView, self).form_valid(form)
+		
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		 return super(VacationAddView, self).dispatch(*args, **kwargs)
 
 	@method_decorator(permission_required('Appointment.confirm_app'))
 	def dispatch(self, *args, **kwargs):
