@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^id/(?P<slug>[a-fA-F0-9]{5})/$', DetailView.as_view(model = Appointment)),
     url(r'^id/$', 'appointments.views.redirectByHash'),
     
-    url(r'^vacations/$', VacationAddView.as_view()),
+    url(r'^vacations/add$', VacationAddView.as_view()),
+    url(r'^vacations/delete$', VacationDeleteView.as_view()),
+    url(r'^vacations/$', VacationListView.as_view()),
     # url(r'^$', 'appointments.views.index'),
 )

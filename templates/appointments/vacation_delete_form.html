@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+        <hgroup>
+            <h1>Usuń urlop</h1>
+        </hgroup>
+        {% include "form_snippet.html" with form=form %}
+        <button type="submit" value="OK">Usuń</button>
+    </form>
+{% endblock %}

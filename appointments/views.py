@@ -248,6 +248,8 @@ class AppointmentListView(ListView):
    			context['admin'] = True
    		return context
 
+   	
+
 #class UserProfileForm(ModelForm):
 #	first_name = forms.CharField(label='imie', max_length=30)
 #	last_name = forms.CharField(label='imie', max_length=30)
@@ -310,13 +312,57 @@ class VacationAddForm(forms.Form):
 		model = Vacation
 
 class VacationAddView(FormView):
-	template_name="appointments/appointment_form.html"
-	success_url = "/"
+	template_name="appointments/vacation_form.html"
+	success_url = "/appointments/vacations"
 	form_class=VacationAddForm
 	
 	def form_valid(self, form):
 		form.save()
 		return super(VacationAddView, self).form_valid(form)
+
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		return super(VacationAddView, self).dispatch(*args, **kwargs)
+
+class VacationListView(ListView):
+   	context_object_name = "vacations"
+   	model = Vacation
+
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		return super(VacationListView, self).dispatch(*args, **kwargs)
+
+class VacationDeleteForm(forms.Form):
+	start = forms.CharField("Poczatek")
+	end = forms.CharField("Koniec")
+	
+	def save(self):
+		cd = self.cleaned_data
+		start = datetime.datetime.strptime(cd['start'], "%Y-%m-%d")
+		end = datetime.datetime.strptime(cd['end'], "%Y-%m-%d")
+		
+		d = start
+		delta = datetime.timedelta(days=1)
+		while d <= end:
+			if Vacation.objects.filter(date = d):
+				Vacation.objects.filter(date = d).delete()
+			d += delta
+		
+	class Meta:
+		model = Vacation
+
+class VacationDeleteView(FormView):
+	template_name="appointments/vacation_delete_form.html"
+	success_url = "/appointments/vacations"
+	form_class=VacationDeleteForm
+	
+	def form_valid(self, form):
+		form.save()
+		return super(VacationDeleteView, self).form_valid(form)
+
+	@method_decorator(permission_required('Appointment.confirm_app'))
+	def dispatch(self, *args, **kwargs):
+		return super(VacationDeleteView, self).dispatch(*args, **kwargs)
 
 def index(req):
 	appos = Appointment.objects.all()

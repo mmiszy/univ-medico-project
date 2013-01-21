@@ -257,20 +257,30 @@ header form button span::before {
   background: -ms-linear-gradient(top, #f56734, #ab3308);
   background: -o-linear-gradient(top, #f56734, #ab3308);
 }
-.main .appointment-list {
+.main .appointment-list,
+.main .vacation-list {
   margin-bottom: 30px;
 }
-.main .appointment-list .in-the-past {
+.main .appointment-list .in-the-past,
+.main .vacation-list .in-the-past {
   color: #bbb;
 }
 .main .appointment-list td,
-.main .appointment-list th {
+.main .vacation-list td,
+.main .appointment-list th,
+.main .vacation-list th {
   padding: 3px 5px;
   max-width: 200px;
   border: 1px solid #ddd;
+  vertical-align: top;
 }
-.main .appointment-list tr:nth-child(2n) {
+.main .appointment-list tr:nth-child(2n+1),
+.main .vacation-list tr:nth-child(2n+1) {
   background: #eee;
+}
+.main .appointment-list th,
+.main .vacation-list th {
+  background: white;
 }
 .main .calendar {
   display: table;

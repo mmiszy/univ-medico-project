@@ -1,4 +1,4 @@
-	{% extends "main.html" %}
+{% extends "main.html" %}
 {% load form_extras %}
 
 {% block content %}
@@ -22,8 +22,8 @@
 				<a href="/appointments/id/{{ o.slug }}/">{{ o.date }}</a>
 			</td>
 			<td>{{ o.time|date:"H:i" }}</td>
-			<td>{{ o.notes }}</td>
-			<td>{{ o.doctor_notes }}</td>
+			<td>{{ o.notes|linebreaksbr }}</td>
+			<td>{{ o.doctor_notes|linebreaksbr }}</td>
 			<td>
 				{% if o.status == 0 %}
 					Niepotwierdzone
@@ -33,19 +33,19 @@
 					Anulowane
 				{% endif %}
 			</td>
-			<td>
-				{% if o.status == 0 or admin %}
+			{% if o.status == 0 or admin %}
+				<td>
 					{% if not o.date|isInThePast:o.time %}<a href="/appointments/delete/{{ o.id }}/">Odwołaj</a>{% endif %}
-				{% endif %}
-			</td>
+				</td>
+			{% endif %}
 			<td>
 				{% if not o.date|isInThePast:o.time %}<a href="/appointments/edit/{{ o.id }}/">Edytuj</a>{% endif %}
 			</td>
-			<td>
-				{% if admin %}
+			{% if admin %}
+				<td>
 					{% if not o.date|isInThePast:o.time %}<a href="/appointments/confirm/{{ o.slug }}/">Potwierdz</a>{% endif %}
-				{% endif %}
-			</td>
+				</td>
+			{% endif %}
 		</tr>
 		{% endfor %}
 	</table>

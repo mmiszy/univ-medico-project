@@ -274,7 +274,7 @@ header {
 		}
 	}
 
-	.appointment-list {
+	.appointment-list, .vacation-list {
 		margin-bottom: 30px;
 
 		.in-the-past {
@@ -285,10 +285,14 @@ header {
 			padding: 3px 5px;
 			max-width: 200px;
 			border: 1px solid #ddd;
+			vertical-align: top;
 		}
 
-		tr:nth-child(2n) {
+		tr:nth-child(2n+1) {
 			background: #eee;
+		}
+		th {
+			background: white;
 		}
 	}
 

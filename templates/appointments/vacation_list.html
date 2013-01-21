@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+{% load form_extras %}
+
+{% block content %}
+    <a href="/appointments/vacations/add">Dodaj urlop</a>
+    |
+    <a href="/appointments/vacations/delete">Usuń urlop</a>
+    <table class="vacation-list">
+        <thead>
+            <th>Data</th>
+        </thead>
+        {% for o in vacations %}
+            <tr>
+                <td>{{ o.date }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

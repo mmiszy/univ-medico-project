@@ -52,7 +52,9 @@
         <ul>
             {% if user.is_authenticated %}
                 <li><a href="/appointments/list">Lista spotkań</a></li>
-                <li><a href="/accounts/edit/">Edytuj profil</a></li>
+                {% if not user.is_staff %}
+                    <li><a href="/accounts/edit/">Edytuj profil</a></li>
+                {% endif %}
 	            {% if user.is_staff %}
 	            	<li><a href="/appointments/prefs/">Ustaw godziny pracy</a></li>
 	            	<li><a href="/appointments/vacations/">Ustaw urlopy</a></li>
