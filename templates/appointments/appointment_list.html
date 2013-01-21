@@ -2,8 +2,11 @@
 {% load form_extras %}
 
 {% block content %}
-	<table>
+	<table class="appointment-list">
 		<thead>
+			{% if admin %}
+				<th>Pacjent</th>
+			{% endif %}
 			<th>Data</th>
 			<th>Godzina</th>
 			<th>Opis</th>
@@ -12,10 +15,13 @@
 		</thead>
 		{% for o in appointments %}
 		<tr class="{% if o.date|isInThePast:o.time %}in-the-past{% else %}in-the-future{% endif %}">
+			{% if admin %}
+				<td>{{ o.author.username }}</td>
+			{% endif %}
 			<td>
 				<a href="/appointments/id/{{ o.slug }}/">{{ o.date }}</a>
 			</td>
-			<td>{{ o.time }}</td>
+			<td>{{ o.time|date:"H:i" }}</td>
 			<td>{{ o.notes }}</td>
 			<td>{{ o.doctor_notes }}</td>
 			<td>
@@ -28,7 +34,7 @@
 				{% endif %}
 			</td>
 			<td>
-				{% if o.status == 0 or link %}
+				{% if o.status == 0 or admin %}
 					{% if not o.date|isInThePast:o.time %}<a href="/appointments/delete/{{ o.id }}/">Odwołaj</a>{% endif %}
 				{% endif %}
 			</td>

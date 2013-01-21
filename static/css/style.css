@@ -123,9 +123,6 @@ header form button span::before {
   line-height: 0;
   height: 0;
 }
-.main .in-the-past {
-  color: #bbb;
-}
 .main form {
   background-color: #e6e6e6;
   margin: 20px 0;
@@ -259,6 +256,21 @@ header form button span::before {
   background: -moz-linear-gradient(top, #f56734, #ab3308);
   background: -ms-linear-gradient(top, #f56734, #ab3308);
   background: -o-linear-gradient(top, #f56734, #ab3308);
+}
+.main .appointment-list {
+  margin-bottom: 30px;
+}
+.main .appointment-list .in-the-past {
+  color: #bbb;
+}
+.main .appointment-list td,
+.main .appointment-list th {
+  padding: 3px 5px;
+  max-width: 200px;
+  border: 1px solid #ddd;
+}
+.main .appointment-list tr:nth-child(2n) {
+  background: #eee;
 }
 .main .calendar {
   display: table;

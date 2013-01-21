@@ -21,7 +21,7 @@
 							</div>
 						{% endif %}
 					{% elif hours.author.username %}
-						<div class="taken hour {% if i|toDatetime:j|isInThePast:"" %}in-the-past{% endif %}"><a href="/appointments/{{ hours.id }}">{{ hours.author.username }}</a></div>
+						<div class="taken hour {% if i|toDatetime:j|isInThePast:"" %}in-the-past{% endif %}"><a href="/appointments/id/{{ hours.slug }}">{{ hours.author.username }}</a></div>
 					{% else %}
 						<div class="taken hour {% if i|toDatetime:j|isInThePast:"" %}in-the-past{% endif %}"><span>zajęty</span></div>
 					{% endif %}

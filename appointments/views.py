@@ -228,7 +228,7 @@ class AppointmentListView(ListView):
    	def get_context_data(self, **kwargs):
    		context = super(AppointmentListView, self).get_context_data(**kwargs)
    		if self.request.user.has_perm("Appointment.view_all_app"):
-   			context['link'] = True
+   			context['admin'] = True
    		return context
 
 #class UserProfileForm(ModelForm):

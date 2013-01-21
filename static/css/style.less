@@ -125,10 +125,6 @@ header {
 .main {
 	.clearfix();
 
-	.in-the-past {
-		color: #bbb;
-	}
-
 	form {
 		background-color: #e6e6e6;
 		margin: 20px 0;
@@ -275,6 +271,24 @@ header {
 			&:hover {
 				.gradient(#f56734, darken(#f56734, 23%));
 			}
+		}
+	}
+
+	.appointment-list {
+		margin-bottom: 30px;
+
+		.in-the-past {
+			color: #bbb;
+		}
+
+		td, th {
+			padding: 3px 5px;
+			max-width: 200px;
+			border: 1px solid #ddd;
+		}
+
+		tr:nth-child(2n) {
+			background: #eee;
 		}
 	}
 
