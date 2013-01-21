@@ -53,7 +53,11 @@
             {% if user.is_authenticated %}
                 <li><a href="/appointments/list">Lista spotkań</a></li>
                 <li><a href="/accounts/edit/">Edytuj profil</a></li>
-                <li><a href="/accounts/logout">Wyloguj ({{ user.username }})</a></li>
+	            {% if user.is_staff %}
+	            	<li><a href="/appointments/prefs/">Ustaw godziny pracy</a></li>
+	            	<li><a href="/appointments/vacations/">Ustaw urlopy</a></li>
+	            {% endif %}
+	             <li><a href="/accounts/logout">Wyloguj ({{ user.username }})</a></li>
             {% else %}
                 <li><a href="/accounts/login">Zaloguj</a></li>
                 <li><a href="/accounts/create">Zarejestruj</a></li>
