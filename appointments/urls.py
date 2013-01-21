@@ -22,5 +22,7 @@ urlpatterns = patterns('',
     url(r'^create/(?P<date>' + date_regexp + ')/(?P<time>\d{4})/$', login_required(AppointmentCreateView.as_view())),
     url(r'^id/(?P<slug>[a-fA-F0-9]{5})/$', DetailView.as_view(model = Appointment)),
     url(r'^id/$', 'appointments.views.redirectByHash'),
+    
+    url(r'^vacations/$', VacationAddView.as_view()),
     # url(r'^$', 'appointments.views.index'),
 )

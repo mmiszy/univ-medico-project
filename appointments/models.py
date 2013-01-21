@@ -55,6 +55,12 @@ class PatientCard(models.Model):
 class Option(models.Model):
 	name = models.CharField(u"Nazwa", max_length=20, db_index=True)
 	value = models.TextField(u"Wartość")
+	
+class Vacation(models.Model):
+	date = models.DateField("Data")
+	
+	def __unicode__(self):
+		return self.date.strftime("%Y-%m-%d")
 
 from django.db.models.signals import post_save
 def create_patient_card(sender, instance, created, **kwargs):

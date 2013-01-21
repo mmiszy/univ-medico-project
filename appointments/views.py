@@ -135,9 +135,14 @@ def generate_calendar_dict(self, date_start):	# generates dict of taken/free app
 	for i in range(6):
 		hours = OrderedDict()
 		day = (date_start + datetime.timedelta(days = i))
+		vacation = Vacation.objects.filter(date = day)
 		for j in range(hours_diff.seconds/1800):
 			dateNtime = day + datetime.timedelta(hours = start_work_hours.hour + j/2, minutes = start_work_hours.minute + j%2*30)
 			hours[dateNtime.strftime("%H:%M")] = dateNtime
+			
+			# If there's a vacation on that day, don't process it
+			if vacation:
+				hours[dateNtime.strftime("%H:%M")] = None
 		week[day.strftime(date_format)] = hours
 
 	for i in AppointmentCalendarView.get_queryset(self):
@@ -284,7 +289,12 @@ class UserEditView(UpdateView):
 		return "/accounts/edit/"
 	def get_object(self, queryset=None):
 		return self.request.user.get_profile()
-	
+
+class VacationAddView(CreateView):
+	model = Vacation
+	template_name="appointments/appointment_form.html"
+	success_url = "/"
+
 def index(req):
 	appos = Appointment.objects.all()
 	return render_to_response('appointments/index.html')
