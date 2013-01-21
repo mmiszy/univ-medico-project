@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+	{% extends "main.html" %}
 {% load form_extras %}
 
 {% block content %}
@@ -40,6 +40,11 @@
 			</td>
 			<td>
 				{% if not o.date|isInThePast:o.time %}<a href="/appointments/edit/{{ o.id }}/">Edytuj</a>{% endif %}
+			</td>
+			<td>
+				{% if admin %}
+					{% if not o.date|isInThePast:o.time %}<a href="/appointments/confirm/{{ o.slug }}/">Potwierdz</a>{% endif %}
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}

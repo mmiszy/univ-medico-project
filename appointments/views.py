@@ -99,8 +99,8 @@ class AppointmentConfirmView(UpdateView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(AppointmentConfirmView, self).get_context_data(**kwargs)
-		context['pk'] = self.kwargs['pk']
-		context['appointment'] = Appointment.objects.get(pk = self.kwargs['pk'])
+		context['slug'] = self.kwargs['slug']
+		context['appointment'] = Appointment.objects.get(slug = self.kwargs['slug'])
 		return context
 
 	# @method_decorator(ext_user_passes_test(user_can_edit_own))
