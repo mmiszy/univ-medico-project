@@ -289,11 +289,34 @@ class UserEditView(UpdateView):
 		return "/accounts/edit/"
 	def get_object(self, queryset=None):
 		return self.request.user.get_profile()
+        
+class VacationAddForm(forms.Form):
+	start = forms.CharField("Poczatek")
+	end = forms.CharField("Koniec")
+	
+	def save(self):
+		cd = self.cleaned_data
+		start = datetime.datetime.strptime(cd['start'], "%Y-%m-%d")
+		end = datetime.datetime.strptime(cd['end'], "%Y-%m-%d")
+		
+		d = start
+		delta = datetime.timedelta(days=1)
+		while d <= end:
+			if not Vacation.objects.filter(date = d):
+				Vacation.objects.create(date = d)
+			d += delta
+		
+	class Meta:
+		model = Vacation
 
-class VacationAddView(CreateView):
-	model = Vacation
+class VacationAddView(FormView):
 	template_name="appointments/appointment_form.html"
 	success_url = "/"
+	form_class=VacationAddForm
+	
+	def form_valid(self, form):
+		form.save()
+		return super(VacationAddView, self).form_valid(form)
 
 def index(req):
 	appos = Appointment.objects.all()
