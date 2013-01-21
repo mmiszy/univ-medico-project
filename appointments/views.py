@@ -241,8 +241,8 @@ class AppointmentListView(ListView):
 #		exclude=('user',)
 
 class UserProfileForm(ModelForm):
-    first_name = forms.CharField(label='Prnom', max_length=30)
-    last_name = forms.CharField(label='Nom', max_length=30)
+    first_name = forms.CharField(label='Imie', max_length=30)
+    last_name = forms.CharField(label='Nazwisko', max_length=30)
 
     def __init__(self, *args, **kw):
         super(UserProfileForm, self).__init__(*args, **kw)
