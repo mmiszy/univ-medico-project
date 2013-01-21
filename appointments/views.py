@@ -17,6 +17,8 @@ from collections import OrderedDict
 import json
 import datetime
 
+from utils import *
+
 def user_can_modify_own(request, *args, **kwargs):
 	app = Appointment.objects.get(pk = kwargs['pk'])
 	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
@@ -124,11 +126,14 @@ class AppointmentDeleteView(DeleteView):
 def generate_calendar_dict(self, date_start):	# generates dict of taken/free appointments
 	date_format = "%Y-%m-%d"
 	week = OrderedDict()
+	start_work_hours = datetime.datetime.strptime(option_get("start_work_hours"), "%H:%M")
+	end_work_hours = datetime.datetime.strptime(option_get("end_work_hours"), "%H:%M")
+	hours_diff = end_work_hours - start_work_hours
 	for i in range(6):
 		hours = OrderedDict()
 		day = (date_start + datetime.timedelta(days = i))
-		for j in range(16): # 8 godzin pracy po pol godzin = 16 przedzialow
-			dateNtime = day + datetime.timedelta(hours = 8 + j/2, minutes = j%2*30)
+		for j in range(hours_diff.seconds/1800):
+			dateNtime = day + datetime.timedelta(hours = start_work_hours.hour + j/2, minutes = start_work_hours.minute + j%2*30)
 			hours[dateNtime.strftime("%H:%M")] = dateNtime
 		week[day.strftime(date_format)] = hours
 
