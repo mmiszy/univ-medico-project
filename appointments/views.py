@@ -38,6 +38,10 @@ class WorkingHoursSetView(FormView):
 	form_class=WorkingHoursSetForm
 	success_url="/"
 	template_name="appointments/appointment_form.html"
+	
+	def form_valid(self, form):
+		form.save()
+		return super(WorkingHoursSetView, self).form_valid(form)
 
 class AppointmentCreateForm(ModelForm):
 	class Meta:
