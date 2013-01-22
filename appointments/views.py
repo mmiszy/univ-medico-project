@@ -77,7 +77,17 @@ class AppointmentPatientEditForm(ModelForm):
 class AppointmentDoctorEditForm(ModelForm):
 	class Meta:
 		model = Appointment
-		fields = ('notes','doctor_notes')		
+		fields = ('notes','doctor_notes')	
+		# wywiad, badania fizykalne, rozpoznanie, zalecenia, recepty, badania
+		# laboratoryjne i obrazowe, informacja zwrotna
+		# 
+		# tylko zalecenia i recepty + informacja zwrotna widoczne dla pacjenta,
+		# ale wszystkie dla lekarza
+		# 
+		# lekarz nie może edytować appointmentów po 1. dniu od ich
+		# odbycia
+		# 
+		# + superuser, który może wszystko
 
 class AppointmentEditView(UpdateView):
 	model=Appointment
@@ -248,6 +258,12 @@ class AppointmentListView(ListView):
    			context['admin'] = True
    		return context
 
+
+#class UserListAllAppointments/Info etc. etc.
+
+
+# powrót do kalendarza na każdym ekranie
+
    	
 
 #class UserProfileForm(ModelForm):
@@ -274,6 +290,7 @@ class UserProfileForm(ModelForm):
             'phone_number',
             'description',
             ]
+        # pesel, email
 
     def save(self, *args, **kw):
         super(UserProfileForm, self).save(*args, **kw)
