@@ -31,6 +31,15 @@ def isInThePast(date, time):
             return True
 
 @register.filter()
+def isOneDayOld(date, time):
+    t = datetime.datetime.now().date() - date
+    if date and t.days > 1:
+        return True
+    else:
+        return False
+
+
+@register.filter()
 def getUsername(author):
     return author.username
 

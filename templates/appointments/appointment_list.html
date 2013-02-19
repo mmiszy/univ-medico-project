@@ -39,7 +39,7 @@
 				</td>
 			{% endif %}
 			<td>
-				{% if not o.date|isInThePast:o.time %}<a href="/appointments/edit/{{ o.id }}/">Edytuj</a>{% endif %}
+				{% if not o.date|isOneDayOld:o.time %}<a href="/appointments/edit/{{ o.id }}/">Edytuj</a>{% endif %}
 			</td>
 			{% if admin %}
 				<td>
