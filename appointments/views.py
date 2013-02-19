@@ -66,12 +66,12 @@ class WorkingHoursSetView(FormView):
 class AppointmentCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
-		exclude = ('author', 'status', 'slug', 'doctor_notes')
+		fields = ('date', 'time')
 		
 class AppointmentDirectCreateForm(ModelForm):
 	class Meta:
 		model = Appointment
-		exclude = ('author', 'status', 'slug', 'date', 'time', 'doctor_notes')
+		fields = ('notes',)
 	
 class AppointmentConfirmForm(ModelForm):
 	class Meta:
@@ -92,9 +92,7 @@ class AppointmentPatientEditForm(ModelForm):
 class AppointmentDoctorEditForm(ModelForm):
 	class Meta:
 		model = Appointment
-		fields = ('notes','doctor_notes')	
-		# wywiad, badania fizykalne, rozpoznanie, zalecenia, recepty, badania
-		# laboratoryjne i obrazowe, informacja zwrotna
+		exclude = ('slug', 'time', 'date', 'author')	
 		# 
 		# tylko zalecenia i recepty + informacja zwrotna widoczne dla pacjenta,
 		# ale wszystkie dla lekarza

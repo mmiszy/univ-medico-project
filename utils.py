@@ -9,7 +9,8 @@ def option_get(name):
 	try:
 		return Option.objects.get(name = name).value
 	except Option.DoesNotExist:
-		raise ValueError, "Option %s does not exist"%name
+		#raise ValueError, "Option %s does not exist"%name
+		return ""
 def option_set(name, value):
 	""" Ustawia wartość opcji o podanej nazwie """
 	try:

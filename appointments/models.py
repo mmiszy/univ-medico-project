@@ -24,6 +24,16 @@ class Appointment(models.Model):
 	doctor_notes = models.TextField('Informacje od lekarza', max_length=500, blank=True)
 	slug = models.SlugField('Slug', max_length=5, db_index=True)
 	
+	wywiad = models.TextField(max_length=500)
+	badania_fizykalne = models.TextField(max_length=500)
+	rozpoznanie = models.TextField(max_length=500)
+	zalecenia = models.TextField(max_length=500)
+	recepty = models.TextField(max_length=500)
+	badania_fizykalne = models.TextField(max_length=500)
+	badania_laboratoryjne = models.TextField(max_length=500)
+	badania_obrazowe = models.TextField(max_length=500)
+	informacja_zwrotna = models.TextField(max_length=500)
+	
 	status = models.SmallIntegerField(default = 0, choices = (
 		(0, 'Niepotwierdzone'),
 		(1, 'Potwierdzone'),
