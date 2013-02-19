@@ -22,11 +22,21 @@ from utils import *
 
 def user_can_modify_own(request, *args, **kwargs):
 	app = Appointment.objects.get(pk = kwargs['pk'])
-	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id))
+	return (request.user.has_perm('appointments.confirm_app') or (request.user.id == app.author.id))
 	
 def user_can_delete_own(request, *args, **kwargs):
 	app = Appointment.objects.get(pk = kwargs['pk'])
-	return (request.user.has_perm('Appointment.confirm_app') or (request.user.id == app.author.id and app.status == 0))
+	return (request.user.has_perm('appointments.confirm_app') or (request.user.id == app.author.id and app.status == 0))
+	
+def doctor_can_modify_app(request, *args, **kwargs):
+	app = Appointment.objects.get(pk = kwargs['pk'])
+	
+	p = request.user.has_perm('appointments.confirm_app')
+	dt = datetime.date.today().date() - app.date
+	d = dt < datetime.timedelta(days = 10)
+	a = request.user.is_admin();
+	
+	return ((p and d) or a)
 
 from utils import *
 class WorkingHoursSetForm(forms.Form):
@@ -49,7 +59,7 @@ class WorkingHoursSetView(FormView):
 		form.save()
 		return super(WorkingHoursSetView, self).form_valid(form)
 		
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		 return super(WorkingHoursSetView, self).dispatch(*args, **kwargs)
 
@@ -100,7 +110,7 @@ class AppointmentEditView(UpdateView):
 	success_url="/appointments/list/"
 	
 	def get_form_class(self):
-		if self.request.user.has_perm('Appointment.confirm_app'):
+		if self.request.user.has_perm('appointments.confirm_app'):
 			return AppointmentDoctorEditForm
 		else:
 			return AppointmentPatientEditForm
@@ -122,7 +132,7 @@ class AppointmentConfirmView(UpdateView):
 		return context
 
 	# @method_decorator(ext_user_passes_test(user_can_edit_own))
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		 return super(AppointmentConfirmView, self).dispatch(*args, **kwargs)
 
@@ -162,7 +172,7 @@ def generate_calendar_dict(self, date_start):	# generates dict of taken/free app
 
 	for i in AppointmentCalendarView.get_queryset(self):
 		if i.date.strftime(date_format) in week and i.time.strftime("%H:%M") in week[i.date.strftime(date_format)]:
-			if (self.request.user.has_perm('Appointment.confirm_app') or (self.request.user.id == i.author.id)):
+			if (self.request.user.has_perm('appointments.confirm_app') or (self.request.user.id == i.author.id)):
 				week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = i
 			else:
 				week[i.date.strftime(date_format)][i.time.strftime("%H:%M")] = None
@@ -252,14 +262,14 @@ class AppointmentListView(ListView):
    	context_object_name = "appointments"
    	
    	def get_queryset(self):
-   		if self.request.user.has_perm("Appointment.view_all_app"):
+   		if self.request.user.has_perm("appointments.view_all_app"):
    			return Appointment.objects.order_by('-date', '-time').all()
    		else:
    			return Appointment.objects.order_by('-date', '-time').filter(author = self.request.user)
 
    	def get_context_data(self, **kwargs):
    		context = super(AppointmentListView, self).get_context_data(**kwargs)
-   		if self.request.user.has_perm("Appointment.view_all_app"):
+   		if self.request.user.has_perm("appointments.view_all_app"):
    			context['admin'] = True
    		return context
 
@@ -342,11 +352,11 @@ class VacationAddView(FormView):
 		form.save()
 		return super(VacationAddView, self).form_valid(form)
 		
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		 return super(VacationAddView, self).dispatch(*args, **kwargs)
 
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		return super(VacationAddView, self).dispatch(*args, **kwargs)
 
@@ -354,7 +364,7 @@ class VacationListView(ListView):
    	context_object_name = "vacations"
    	model = Vacation
 
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		return super(VacationListView, self).dispatch(*args, **kwargs)
 
@@ -386,7 +396,7 @@ class VacationDeleteView(FormView):
 		form.save()
 		return super(VacationDeleteView, self).form_valid(form)
 
-	@method_decorator(permission_required('Appointment.confirm_app'))
+	@method_decorator(permission_required('appointments.confirm_app'))
 	def dispatch(self, *args, **kwargs):
 		return super(VacationDeleteView, self).dispatch(*args, **kwargs)
 
