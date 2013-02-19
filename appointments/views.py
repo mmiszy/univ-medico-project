@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Create your views here.
 from appointments.models import *
 from django.views.generic import CreateView, UpdateView, DetailView, ListView, DeleteView, FormView
@@ -42,7 +43,7 @@ class WorkingHoursSetForm(forms.Form):
 class WorkingHoursSetView(FormView):
 	form_class=WorkingHoursSetForm
 	success_url="/"
-	template_name="appointments/appointment_form.html"
+	template_name="appointments/prefs_form.html"
 	
 	def form_valid(self, form):
 		form.save()
